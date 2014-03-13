@@ -1,4 +1,4 @@
 Hiukkaskasvusimulaattori
 ========================
 
-Yksikomponenttisimulaattori aerosolihiukkasten kasvulle
+Yksikomponenttisimulaattori aerosolihiukkasen kasvulle. 
