@@ -1,4 +1,4 @@
-package hiukkaskasvu.hiukkaskasvusimulaattori;
+package hiukkaskasvu.hiukkaskasvusimulaattoriTest;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

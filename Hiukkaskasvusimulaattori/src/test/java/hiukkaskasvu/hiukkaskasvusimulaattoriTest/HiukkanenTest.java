@@ -1,5 +1,6 @@
-package hiukkaskasvu.hiukkaskasvusimulaattori;
+package hiukkaskasvu.hiukkaskasvusimulaattoriTest;
 
+import hiukkaskasvu.hiukkaskasvusimulaattori.Hiukkanen;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,16 +27,15 @@ public class HiukkanenTest {
     
     @Before
     public void setUp() {
-      hitu = new Hiukkanen("Hitu",10e-9);
+      hitu = new Hiukkanen("Hitu",10e-9,1800,298.15);
     }
     
     @After
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
+    //Harjoituksen vuoksi tässä testataan myös muutama getteri ja setteri
+    
      @Test
      public void hiukkasenKonstruktoriToimiiOikeinTesti() {
          assertEquals("Hiukkasen Hitu säde on 10.0 nm", hitu.toString());
@@ -57,5 +57,29 @@ public class HiukkanenTest {
      @Test
      public void hiukkasenNimenHakeminenToimiiOikeinTest() {
          assertEquals("Hitu",hitu.getNimi());
+     }
+     
+     @Test
+     public void hiukkasenMassaLasketaanOikeinTest() {
+         
+         assertEquals(hitu.massa(),7.539e-21,1e-22);
+     }
+     
+     @Test
+     public void hiukkasenCunninghaminkerroinLasketaanOikeinTest() {
+         
+         assertEquals(hitu.cunninghaminKorjauskerroin(68.0e-9),12.1391,1e-4);
+     }
+     
+     @Test
+     public void hiukkasenDiffuusiokerroinLasketaanOikeinTest() {
+         
+         assertEquals(hitu.diffuusiokerroin(68.0e-9,18.6e-6),1.425e-8,1e-11);
+     }
+     
+     @Test
+     public void hiukkasenLamponopeusLasketaanOikeinTest() {
+         
+         assertEquals(hitu.lamponopeus(),1.1790,1e-4);
      }
 }
