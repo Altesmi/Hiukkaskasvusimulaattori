@@ -4,5 +4,7 @@
 
 **La 15.03.2014** Karkea luokkakaavio tehty, Hiukkanen-luokka koodattu, JUnit-testeihin tutustuminen, pirun käteviä! 2,5h
 
+**To 20.03.2014** Lisää ominaisuuksia Hiukkanen-luokkaan. Uudet luokat Molekyyli ja Kaasu. Määrittelyvaiheen luokkakaavio. 9.0h
 
-#### YHT 6,0 h
+
+#### YHT 15,0 h
