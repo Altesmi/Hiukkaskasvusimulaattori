@@ -55,6 +55,14 @@ public class Ilmakeha {
         this.hoyry = hoyry;
     }
     
+    public Kaasu getIlma() {
+        return this.ilma;
+    }
+    
+    public void setIlma(Kaasu ilma) {
+        this.ilma = ilma;
+    }
+    
     public double getPaine() {
         return this.paine;
     }
@@ -77,7 +85,7 @@ public class Ilmakeha {
     
     //Hiukkasen vapaa matka, Knudsenin luku ja massavuon korjauskerroin lasketaan 
     //eri metodeissa selkeyden vuoksi
-    //luokka käyttää sitä itse => ei näy ulospäin
+    //luokka käyttää niitä itse => ei näy ulospäin
     
 
     //Hiukkasen vapaa matka on keskimääräinen matka jonka hiukkanen kulkee
@@ -123,16 +131,16 @@ public class Ilmakeha {
     
     public void kasvataHiukkasta(double delta_aika) {
         //Selvyyden vuoksi määritellään apumuuttujia
-        
         double gamma = (4.0/3.0) * this.knudseninLuku()*this.massavuonKorjauskerroin();
         double kasvunopeus = gamma /(2.0*this.hoyry.getTiheys())
                             *Math.pow((1.0+(this.hoyry.sade()/this.hitu.getSade())),2.0)
                             *Math.sqrt(8.0*this.BOLTZMANNIN_VAKIO*this.lampotila/Math.PI)
-                            *Math.sqrt(1.0/this.hitu.massa() + 1.0/this.hoyry.massa())
+                            *Math.sqrt(1.0/(this.hitu.massa()) + 1.0/(this.hoyry.massa()))
                             *this.hoyry.massa() * this.hoyry.getPitoisuus();
         
         //Asetetaan uusi säde = vanha säde + tiivistymisestä johtuva säteen kasvu
-        hitu.setSade(hitu.getSade() + (kasvunopeus * delta_aika));
+        //2:lla jakaminen johtuu siitä, että kasvunopeus palauttaa halkaisijan muutoksen
+        hitu.setSade(hitu.getSade() + (kasvunopeus * delta_aika)/2.0);
         
     }
     
