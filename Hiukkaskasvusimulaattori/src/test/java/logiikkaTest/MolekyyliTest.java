@@ -1,7 +1,7 @@
 
-package hiukkaskasvu.hiukkaskasvusimulaattoriTest;
+package logiikkaTest;
 
-import hiukkaskasvu.hiukkaskasvusimulaattori.Molekyyli;
+import logiikka.Molekyyli;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

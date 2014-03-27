@@ -1,7 +1,9 @@
 
-package hiukkaskasvu.hiukkaskasvusimulaattoriTest;
+package logiikkaTest;
 
-import hiukkaskasvu.hiukkaskasvusimulaattori.*;
+import logiikka.Kaasu;
+import logiikka.Hiukkanen;
+import logiikka.Ilmakeha;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,7 +36,7 @@ public class IlmakehaTest {
     public void setUp() {
         hiukkanen = new Hiukkanen("Hiukkanen",10e-9,1800,298.15);
         rikkihappo = new Kaasu("Rikkihappo",0.098079,1800.0,298.15,50.17,1e12);
-        ilmakeha = new Ilmakeha(hiukkanen,rikkihappo,1.0,273.15);
+        ilmakeha = new Ilmakeha(hiukkanen,rikkihappo,1.0,273.15,0.0);
     }
     
     @After
@@ -75,10 +77,15 @@ public class IlmakehaTest {
    public void IlmakehaLaskeeSateenMuutoksenOikeinTest() {
        ilmakeha.getHiukkanen().setSade(0.75e-9);
        ilmakeha.getKaasu().setPitoisuus(1.0e13);
-       ilmakeha.kasvataHiukkasta(3600.0);
+       ilmakeha.kasvataHiukkasta(3600);
        //2.261nm laskettu kandissa käytetyllä skriptillä
        assertEquals(ilmakeha.getHiukkanen().getSade()*2.0,2.261e-9,1e-12);
    }
    
+   @Test
+   public void ajanEdistaminenToimiiOikeinTest() {
+       ilmakeha.edistaAikaa(2.0);
+       assertEquals(ilmakeha.getAika(),2.0,1e-4);
+   }
    
 }

@@ -1,5 +1,5 @@
 
-package hiukkaskasvu.hiukkaskasvusimulaattori;
+package logiikka;
 
 import java.lang.Math.*;
 
@@ -22,12 +22,14 @@ public class Ilmakeha {
     private Kaasu ilma;
     private double paine;
     private double lampotila;
+    private double aika;
        
     
-    public Ilmakeha(Hiukkanen hitu, Kaasu hoyry, double paine, double lampotila) {
+    public Ilmakeha(Hiukkanen hitu, Kaasu hoyry, double paine, double lampotila, double aika) {
         this.hitu = hitu;
         this.hoyry = hoyry;
         this.paine = paine;
+        this.aika = aika;
         this.lampotila = lampotila;
         //Ilma asetetaan automaattisesti. Konsentraatiota ei käytetä laskuissa
         //vaikka onkin lähellä oikeaa arvoa
@@ -81,6 +83,18 @@ public class Ilmakeha {
         this.ilma.setLampotila(lampotila);
         this.hoyry.setLampotila(lampotila);
         this.hitu.setLampotila(lampotila);
+    }
+    
+    public double getAika() {
+        return this.aika;
+    }
+    
+    public void setAika(double aika) {
+        this.aika = aika;
+    }
+    
+    public void edistaAikaa(double uusi_aika) {
+        this.aika += uusi_aika;
     }
     
     //Hiukkasen vapaa matka, Knudsenin luku ja massavuon korjauskerroin lasketaan 

@@ -1,5 +1,5 @@
 
-package hiukkaskasvu.hiukkaskasvusimulaattori; 
+package logiikka; 
 import java.lang.Math.*;
 
 

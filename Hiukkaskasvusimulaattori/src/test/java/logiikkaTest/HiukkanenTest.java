@@ -1,6 +1,6 @@
-package hiukkaskasvu.hiukkaskasvusimulaattoriTest;
+package logiikkaTest;
 
-import hiukkaskasvu.hiukkaskasvusimulaattori.Hiukkanen;
+import logiikka.Hiukkanen;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

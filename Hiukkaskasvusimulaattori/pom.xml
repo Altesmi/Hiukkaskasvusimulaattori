@@ -36,12 +36,27 @@
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>cobertura-maven-plugin</artifactId>
+            <configuration>
+                <instrumentation>
+                    <includes>
+                        <include>logiikka/*.class</include>
+                    </includes>
+                </instrumentation>
+            </configuration>
             <version>2.6</version>
         </plugin>
         <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
             <version>0.30</version>
+            <configuration>
+                <targetClasses>
+                    <param>logiikka.*</param>
+                </targetClasses>
+            <targetTests>
+                <param>logiikkaTest.*</param>
+            </targetTests>
+    </configuration>
         </plugin>
     </plugins>
 </build>

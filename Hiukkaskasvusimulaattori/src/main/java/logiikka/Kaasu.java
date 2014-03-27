@@ -1,5 +1,5 @@
 
-package hiukkaskasvu.hiukkaskasvusimulaattori;
+package logiikka;
 
 /**
  * Molekyyli-luokkaa jatkava luokka Kaasu, joka koostuu monesta
