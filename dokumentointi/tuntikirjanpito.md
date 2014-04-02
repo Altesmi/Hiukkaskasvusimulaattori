@@ -13,5 +13,7 @@ Ensimmäinen pit-raportti.  Määrittelyvaiheen luokkakaavio. 9,0h
 
 **To 27.3.2014** Tarkennettu luokkakaavio, Simulaatio-luokka poistettu ja ajan kuluminen lisätty ilmakehä-luokan ominaisuudeksi. Tekstikäyttöliittymä tehty pisteeseen, että hiukkasta pystytään kasvattamaan oikein ja simulaation aika-askelta pystytään vaihtaaman. Uusi pit-raportti katsottu läpi logiikan rivikattavuus 77% testaamattomat metodit settereita ja gettereita. Cobertura-raportti näytti samaa. 7,0h
 
+**Ke 2.4.2014** Datankasittelija-pakkauksen luokat Datankeraaja ja Tiedostonkasittelija. Vaativat vielä nopean testauksen. 4,0h
 
-#### YHT 30,5 h
+
+#### YHT 34,5 h
