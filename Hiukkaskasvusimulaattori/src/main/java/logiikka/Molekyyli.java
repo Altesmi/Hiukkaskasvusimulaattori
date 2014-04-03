@@ -4,8 +4,9 @@ package logiikka;
 import java.lang.Math.*;
 
 /**
- * Yksittäinen höyrymoleekylin luokka. Höyrymolekyylillä on vain
- * ominaisuuksia, eikä se tee mitään.
+ * Yksittäinen höyrymoleekylin luokka. Höyrymolekyylillä on ominaisuudet
+ * moolimassa, tiheys, lmapotila, diffuusiotilavuus ja nimi
+ * 
  * @author Olli-Pekka Tikkanen
  */
 public class Molekyyli {

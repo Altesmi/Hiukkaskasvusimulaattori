@@ -3,7 +3,7 @@ package logiikka;
 
 /**
  * Molekyyli-luokkaa jatkava luokka Kaasu, joka koostuu monesta
- * molekyylista.
+ * molekyylista. Uusi ominaisuus pitoisuus.
  * @author optikkanen
  */
 public class Kaasu extends Molekyyli {

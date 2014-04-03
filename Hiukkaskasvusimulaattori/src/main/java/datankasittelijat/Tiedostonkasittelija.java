@@ -28,19 +28,19 @@ public class Tiedostonkasittelija {
     
     public void kirjoitaTiedostoon() throws Exception {
         
-        FileWriter kirjoitin = new FileWriter(tiedoston_nimi);
+        FileWriter kirjoitin = new FileWriter(this.tiedoston_nimi);
             int i;
             
             //kirjoitetaan kaikki tiedot tiedostoon
             //kaikkien ArrayListien pituus Datankeraajassa on sama
             
-            for(i=0;i<this.data.getAjat().size();i++) {
+            for(i=0;i<this.data.pituus();i++) {
                 
-                String rivi = this.data.getAjat().get(i) + "\t"
-                        + this.data.getSateet().get(i) + "\t"
-                        + this.data.getPitoisuudet().get(i) + "\t"
-                        + this.data.getLampotilat().get(i) + "\t"
-                        + this.data.getPaineet().get(i) + "\n";
+                String rivi = this.data.getAika(i) + "\t"
+                        + this.data.getSade(i) + "\t"
+                        + this.data.getPitoisuus(i) + "\t"
+                        + this.data.getLampotila(i) + "\t"
+                        + this.data.getPaine(i) + "\n";
                 
                 kirjoitin.append(rivi);
                 

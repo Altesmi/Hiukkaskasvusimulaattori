@@ -8,7 +8,8 @@ import java.lang.Math.*;
  * yhdestä aerosolihiukkasesta
  * 
  * Ilmakehä-luokka huolehtii, että kaasun tiivistyminen aerosolihiukkaseen
- * lasketaan oikein ja samalla se kasvattaa sille annetun hiukkasen sädettä
+ * lasketaan oikein ja samalla se kasvattaa aerosolihiukkasen sädettä ja 
+ * huolehtii ajan kulumisesta.
  * @author Olli-Pekka Tikkanen
  */
 public class Ilmakeha {

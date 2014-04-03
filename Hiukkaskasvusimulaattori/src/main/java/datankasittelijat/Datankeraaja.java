@@ -3,11 +3,15 @@ package datankasittelijat;
 
 import java.util.ArrayList;
 import logiikka.Ilmakeha;
+
 /**
- * Luokka, joka kerää taulukkoon yhden muuttujan tietoa
+ * Datankeraaja-luokka kerää ilmakehän tiedot (aika, hiukkasen säde,
+ * kaasun pitoisuus, ilmakehän lämpötila ja paine) ArrayListeihin jokaisella
+ * tallennaAikaAskeleenTiedot()-metodin kutsulla.
  * 
  * @author Olli-Pekka Tikkanen
  */
+
 public class Datankeraaja {
     
     private ArrayList<Double> aika;
@@ -16,6 +20,7 @@ public class Datankeraaja {
     private ArrayList<Double> lampotila;
     private ArrayList<Double> paine;
     private Ilmakeha ilmakeha;
+    private ArrayList<ArrayList<Double>> apu;
     
     //Annetaan konstrukotrille ilmakeha-olio, jotta tietoja voidaan päivittää
     //suoraan
@@ -27,26 +32,37 @@ public class Datankeraaja {
         this.pitoisuus = new ArrayList<>();
         this.lampotila = new ArrayList<>();
         this.paine = new ArrayList<>();
+        
+        //käytetään pituuden laskemiseen
+        this.apu = new ArrayList<>();
+        this.apu.add(this.aika);
+        this.apu.add(this.sade);
+        this.apu.add(this.pitoisuus);
+        this.apu.add(this.lampotila);
+        this.apu.add(this.paine);
     }
     
-    public ArrayList<Double> getAjat() {
-        return this.aika;
+    //kapseloidaan getterit indeksin mukaan
+    //jottei palauteta koko arraylist-oliota
+    //(esteetään set-metodin käyttäminen) ulkopuolelta
+    public double getAika(int index) {
+        return this.aika.get(index);
     }
     
-    public ArrayList<Double> getSateet() {
-        return this.sade;
+    public double getSade(int index) {
+        return this.sade.get(index);
     }
     
-    public ArrayList<Double> getPitoisuudet() {
-        return this.pitoisuus;
+    public double getPitoisuus(int index) {
+        return this.pitoisuus.get(index);
     }
     
-    public ArrayList<Double> getLampotilat() {
-        return this.lampotila;
+    public double getLampotila(int index) {
+        return this.lampotila.get(index);
     }
     
-    public ArrayList<Double> getPaineet() {
-        return this.paine;
+    public double getPaine(int index) {
+        return this.paine.get(index);
     }
     
     public void tallennaAikaAskeleenTiedot() {
@@ -56,6 +72,28 @@ public class Datankeraaja {
         this.pitoisuus.add(this.ilmakeha.getKaasu().getPitoisuus());
         this.lampotila.add(this.ilmakeha.getLampotila());
         this.paine.add(this.ilmakeha.getPaine());
+        
+    }
+    
+    public int pituus() {
+        //Palauttaa -1 jos kaikki arraylistit eivät ole samanmittaisia
+        //jolloin jotain on mennyt pahasti pieleen
+        // muutoin palautetaan aika-listan pituus
+        int palautus;
+        int i,j;
+        
+        palautus = this.aika.size();
+        for(i=0;i<this.apu.size();i++) {
+            for(j=0;j<this.apu.size();j++) {
+                if(this.apu.get(i).size()!=this.apu.get(j).size()) {
+                    palautus = -1;
+                    break;
+                }
+            }
+        }
+        
+        return(palautus);
+        
     }
     
     

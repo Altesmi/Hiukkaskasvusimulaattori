@@ -52,9 +52,11 @@
             <configuration>
                 <targetClasses>
                     <param>logiikka.*</param>
+                    <param>datankasittelijat.*</param>
                 </targetClasses>
             <targetTests>
                 <param>logiikkaTest.*</param>
+                <param>datankasittelijatTest.*</param>
             </targetTests>
     </configuration>
         </plugin>

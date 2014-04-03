@@ -15,5 +15,7 @@ Ensimmäinen pit-raportti.  Määrittelyvaiheen luokkakaavio. 9,0h
 
 **Ke 2.4.2014** Datankasittelija-pakkauksen luokat Datankeraaja ja Tiedostonkasittelija. Vaativat vielä nopean testauksen. 4,0h
 
+**To 3.4.2014** Testit datankasittelijoille, graafisen käyttöliittymän tekemisen opettelua (tällä hetkellä käyttöliittymä on alkeellinen yksi nappi, jota painettaessa hiukkanen kasvaa yhden tunnin ja säde tulostuu toiseen kenttään). Kaksi sekvenssikaaviota lisätty, sekä päivitetty luokkakaaviota. JavaDoc luokille ja hiukkasen public-metodeille. Uusi pit-raportti. 6.0 h
 
-#### YHT 34,5 h
+
+#### YHT 40,5 h
