@@ -5,7 +5,8 @@ import java.lang.Math.*;
 
 /**
  * Yksittäinen höyrymoleekylin luokka. Höyrymolekyylillä on ominaisuudet
- * moolimassa, tiheys, lmapotila, diffuusiotilavuus ja nimi
+ * moolimassa, tiheys, lmapotila, diffuusiotilavuus ja nimi. Näistä lasketaan 
+ * lisäksi massa, molekyylin säde, diffuusiokerroin ja lämpönopeus
  * 
  * @author Olli-Pekka Tikkanen
  */
@@ -69,26 +70,35 @@ public class Molekyyli {
     public void setDiffuusiotilavuus(double diffuusiotilavuus) {
         this.diffuusiotilavuus = diffuusiotilavuus;
     }
-    
+    /**
+     * Laskee molekyylin massa moolimassasta
+     * 
+     * @return yksittäisen molekyylin massa (yksikkö: kg)
+     */
     public double massa() {
         return this.moolimassa/this.AVOGADRON_VAKIO;
     }
     
-    //Säde on järkevämpää määrätä molekyylin muiden ominaisuuksien kautta
-    //sillä sen muutos tapahtuu juuri tiheyden ja moolimassan muutoksen kautta
-    //Vrt. hiukkasella säde on karakterisoiva ominaisuus kun taas molekyylia 
-    //karakterisoi paremmin tiheys ja moolimassa
-    
+    /**
+     * 
+     * Palauttaa molekyylin säteen
+     * 
+     * @return molekyylin säde (yksikkö: m)
+     */
     public double sade() {
         return Math.cbrt(3.0*this.massa()/(4.0*this.tiheys*Math.PI));    
     }
-    
-    //Molekyylihiukkasen diffuusiokerroin (Huom! lasketaan eri tavalla kuin
-    //aerosolihiukkasen. Paine oltava yksiköissä [atm]!
-    //Kts. esim Poling et. al. The Properties of Gases and Liquids (2001)
-    //Myös Nieminen et. al. Sub-10 nm particle growth by vapor condensation (ACP,2010)
-    //kaava palauttaa yksiköissä cm^2/s jotka muutetaan m^2/s
 
+
+    /**
+     * Palauttaa molekyylin diffuusiokertoimen, joka kuvaa aluetta
+     * jonka molekyyli keskimäärin kulkee aikayksikössä
+     * 
+     * @param valiaineen_diffuusiotilavuus väliaineen (esim. ilma) diffuusio tilavuus (kts. esim Poling et al. (2001) (the properties of gases and liquids)
+     * @param valiaineen_massa väliaineen(esim ilmamolekyylin) massa (yksikössä kg)
+     * @param paine ilmakehän paine (yksikössä atm)
+     * @return molekyylin diffuusiokerroin (yksikkö m^2/s)
+     */
     public double diffuusiokerroin(double valiaineen_diffuusiotilavuus, double
             valiaineen_massa, double paine) {
         
@@ -100,6 +110,12 @@ public class Molekyyli {
         
     }
     
+    /**
+     * Palauttaa molekyylin lämpönopeuden, joka kuvaa molekyylin 
+     * Brownisen liikkeen magnitudia
+     * 
+     * @return lämpönopeus (yksikkö: m/s)
+     */
     public double lamponopeus() {
         
         return Math.sqrt(8.0*this.BOLTZMANNIN_VAKIO*this.lampotila/(Math.PI*this.massa()));

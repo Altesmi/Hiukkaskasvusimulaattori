@@ -16,14 +16,16 @@ import logiikka.Ilmakeha;
 public class Simulaatio {
     
     private Hiukkanen hiukkanen;
-    private Kaasu rikkihappo;
+    private Kaasu kaasu;
     private Ilmakeha ilmakeha;
     
-    public Simulaatio() {
+    public Simulaatio(Hiukkanen hiukkanen, Kaasu kaasu, double lampotila, double paine) {
         
-        this.hiukkanen = new Hiukkanen("Hiukkanen",0.75e-9,1800,298.15);
-        this.rikkihappo = new Kaasu("Rikkihappo",0.098079,1800.0,298.15,50.17,1e14);
-        this.ilmakeha = new Ilmakeha(hiukkanen,rikkihappo,1.0,273.15,0.0);
+        this.hiukkanen = hiukkanen;
+        this.kaasu = kaasu;
+        //this.hiukkanen = new Hiukkanen("Hiukkanen",0.75e-9,1800,298.15);
+        //this.rikkihappo = new Kaasu("Rikkihappo",0.098079,1800.0,298.15,50.17,1e14);
+        this.ilmakeha = new Ilmakeha(hiukkanen,kaasu,paine,lampotila,0.0);
         
     }
     

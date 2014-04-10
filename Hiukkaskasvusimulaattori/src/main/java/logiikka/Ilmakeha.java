@@ -25,7 +25,20 @@ public class Ilmakeha {
     private double lampotila;
     private double aika;
        
-    
+    /**
+     * Ilmakehän konstruktori luo hiukkasen ja kaksi kaasu (ilma, sekä parametrina
+     * annettu kaasu). Lisäksi se asettaa itselleen jonkun aloitusajan, lämpötilan ja paineen.
+     * Kaikki kaasut ja hiukkanen asetetaan lämpötilana annetun parametrin lämpötilaan
+     * 
+     * 
+     * @param hitu Aerosolihiukkanen
+     * @param hoyry Tiivistyvä höyry
+     * @param paine ilmakehän vallitseva paine (yksikkö: atm)
+     * @param lämpötila ilmakehän lämpötila (yksikkö: K)
+     * @param aika ilmakehän luomisen aloitusajankohta (yksikkö: s)
+     * 
+     * @return Ilmakehä olio.
+     */
     public Ilmakeha(Hiukkanen hitu, Kaasu hoyry, double paine, double lampotila, double aika) {
         this.hitu = hitu;
         this.hoyry = hoyry;
@@ -78,6 +91,14 @@ public class Ilmakeha {
         return this.lampotila;
     }
     
+    /**
+     * Lämpötilaa muutettaessa myös tiivistyvän höyryn ja 
+     * aerosolihiukkasen lämpötila asetetaan parametrina
+     * annettuun lämpötilaan
+     * 
+     * @param lampotila asetettava lämpötila
+     * 
+     */
     public void setLampotila(double lampotila) {
         this.lampotila = lampotila;
         //asetetaan samalla muutkin lampotilat kuntoon
@@ -94,17 +115,16 @@ public class Ilmakeha {
         this.aika = aika;
     }
     
+    /**
+     * Edistää ilmakehän sisäistä kelloa annetun ajan verran
+     * 
+     * 
+     * @param  uusi_aika määrä kuinka paljon kelloa edistetään (yksikkö: s)
+     * 
+     */
     public void edistaAikaa(double uusi_aika) {
         this.aika += uusi_aika;
     }
-    
-    //Hiukkasen vapaa matka, Knudsenin luku ja massavuon korjauskerroin lasketaan 
-    //eri metodeissa selkeyden vuoksi
-    //luokka käyttää niitä itse => ei näy ulospäin
-    
-
-    //Hiukkasen vapaa matka on keskimääräinen matka jonka hiukkanen kulkee
-    //keskenäisten törmäysten välillä höyryn kanssa
     
     private double hiukkasenVapaaMatka() {
        
@@ -116,19 +136,13 @@ public class Ilmakeha {
                         Math.pow(this.hoyry.lamponopeus(),2.0)));
         
     } 
-    
-    //Knudsenin luku kuvaa hiukkasen vapaan matkan (matkaa jonka hiukkanen
-    //kulkee keskimäärin törmäysten välillä) suhdetta hiukkasen ja höyryn kokoon
+
     private double knudseninLuku() {
         
         return 2.0*this.hiukkasenVapaaMatka()/(this.hitu.getSade() + this.hoyry.sade());
         
     }
-    
-    //Massavuon korjauskerroin ottaa huomioon, että ilmakehän mittakaavassa
-    //Massansiirto hiukkaseen ei tapahdu puhtaasti kineettisesti tai puhtaasti 
-    //diffundoitumalla. Käytännössä saadaan yhdistämällä nämä kaksi aluetta
-    //(Seinfeld ja Pandis (2006))
+
     private double massavuonKorjauskerroin() {
         
         return (1+this.knudseninLuku())/
@@ -140,10 +154,16 @@ public class Ilmakeha {
         
     }
     
-    //Differentiaaliyhtälö hiukkasen säteelle (Nieminen et. al (2010, ACP)) 
-    //ratkaistaan tässä Eulerin menetelmällä. Jos aika-askeleen kanssa tulee 
-    //ongelmia täytyy käyttää hienostuneempia algoritmeja.
-    
+    /**
+     * Metodi ratkaisee differentiaaliyhtälön aerosolihiukkasen säteelle,
+     * ja kasvattaa kyseistä hiukkasta. Differentiaaliyhtälö löytyy
+     * esimerkiksi Nieminen T. et. al. Sub-10nm particle growth by vapor
+     * condensation. Differentiaaliyhtälö ratkaistaan Eulerin menetelmällä, joten
+     * suuri aika-askel kasvattaa virhettä. Suositeltava aika-askel on luokkaa sekunti.
+     * 
+     * @param delta_aika aika-askel, jonka hiukkane nkasvaa
+     * 
+     */
     public void kasvataHiukkasta(double delta_aika) {
         //Selvyyden vuoksi määritellään apumuuttujia
         double gamma = (4.0/3.0) * this.knudseninLuku()*this.massavuonKorjauskerroin();
@@ -153,8 +173,6 @@ public class Ilmakeha {
                             *Math.sqrt(1.0/(this.hitu.massa()) + 1.0/(this.hoyry.massa()))
                             *this.hoyry.massa() * this.hoyry.getPitoisuus();
         
-        //Asetetaan uusi säde = vanha säde + tiivistymisestä johtuva säteen kasvu
-        //2:lla jakaminen johtuu siitä, että kasvunopeus palauttaa halkaisijan muutoksen
         hitu.setSade(hitu.getSade() + (kasvunopeus * delta_aika)/2.0);
         
     }

@@ -4,7 +4,8 @@ package logiikka;
 /**
  * Molekyyli-luokkaa jatkava luokka Kaasu, joka koostuu monesta
  * molekyylista. Uusi ominaisuus pitoisuus.
- * @author optikkanen
+ * 
+ * @author Olli-Pekka Tikkanen
  */
 public class Kaasu extends Molekyyli {
     
