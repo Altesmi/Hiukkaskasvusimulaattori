@@ -23,5 +23,7 @@ Ensimmäinen pit-raportti.  Määrittelyvaiheen luokkakaavio. 9,0h
 
 **To 10.4.2014** Javadoc kaikille logiikka-paketin public-metodeille. Uusi pit-raportti 1,0h
 
+**To 24.4.2014** Luo hiukkanen ja kaasu nappien toiminnallisuus, osaavat tarkistaa virhetilanteetkin! 
+
 
 #### YHT 49,5 h

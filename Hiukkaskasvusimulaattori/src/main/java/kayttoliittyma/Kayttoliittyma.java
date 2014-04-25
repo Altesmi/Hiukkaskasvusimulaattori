@@ -45,19 +45,26 @@ public class Kayttoliittyma implements Runnable {
     private void luoKomponentit(Container sailio) {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
+        PallonPiirtopohja hiukkasenPohja = new PallonPiirtopohja(Color.WHITE, this.pallo);
+        PallonPiirtopohja kuvaajanPohja = new PallonPiirtopohja(Color.WHITE,this.pallo); 
+        KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija(this.simulaatio.getIlmakeha());
+        HiukkasenLuomisenKuuntelija hiukkaskuuntelija = new HiukkasenLuomisenKuuntelija(this.simulaatio.getIlmakeha());
+        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja);
         
         sailio.setLayout(layout);
-        
-        KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija();
-        
-        //JTextArea textAreaOikea = new JTextArea(simulaatio.tulostaHiukkasenSade());
+    //JTextArea textAreaOikea = new JTextArea(simulaatio.tulostaHiukkasenSade());
         JButton luoKaasu = new JButton("Luo kaasu");
         luoKaasu.addActionListener(kaasuKuuntelija);
+        
         JButton luoHiukkanen = new JButton("Luo hiukkanen");
+        luoHiukkanen.addActionListener(hiukkaskuuntelija);
+        
         JButton ajaSimulaatio = new JButton("Aja simulaatio");
+        ajaSimulaatio.addActionListener(simulaatiokuuntelija);
+        
         JButton tallennaData = new JButton("Tallenna data");
-        PallonPiirtopohja hiukkasenPohja = new PallonPiirtopohja(Color.WHITE, this.pallo);
-        PallonPiirtopohja kuvaajanPohja = new PallonPiirtopohja(Color.WHITE,this.pallo);
+        
+
         JPanel nappulaPaneeli = new JPanel(new GridBagLayout());
         
         //AikaAskeleenEdistaja edistaja = new AikaAskeleenEdistaja(simulaatio, textAreaOikea);
