@@ -28,6 +28,7 @@ public class PallonPiirtopohja extends JPanel {
         this.pallo = pallo;
     }
     
+    
     @Override
     protected void paintComponent(Graphics grafiikka) {
         super.paintComponent(grafiikka);

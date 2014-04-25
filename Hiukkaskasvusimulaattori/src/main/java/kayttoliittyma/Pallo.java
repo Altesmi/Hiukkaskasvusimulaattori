@@ -4,6 +4,7 @@ package kayttoliittyma;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+
 /**
  * Luokka piirtää pallon käyttäen javan Sphere-luokkaa
  * ja Material luokkia hyväksi
@@ -33,5 +34,6 @@ public class Pallo {
         Ellipse2D.Double ympyra = new Ellipse2D.Double(250,150,this.sade,this.sade);
         graphics2D.draw(ympyra);
     }
+    
     
 }

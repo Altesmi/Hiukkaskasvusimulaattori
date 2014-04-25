@@ -8,12 +8,11 @@ package kayttoliittyma;
 
 import logiikka.Ilmakeha;
 import logiikka.Hiukkanen;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.JOptionPane;
 
 public class HiukkasenLisaysKuuntelija implements ActionListener{
        
@@ -38,7 +37,7 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         try {
-            Hiukkanen hiukkanen = new Hiukkanen(this.nimi.getText(), Double.parseDouble(this.sade.getText()), 
+            Hiukkanen hiukkanen = new Hiukkanen(this.nimi.getText(), Double.parseDouble(this.sade.getText())*1e-9, 
                                 Double.parseDouble(this.tiheys.getText()), Double.parseDouble(this.lampotila.getText()));
         
             this.ilmakeha.setHiukkanen(hiukkanen);
@@ -49,11 +48,7 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
         }
         catch(Exception ex) {
             // anna ponnahdusikkuna jos luominen ei onnistu
-            JFrame ei_onnistunut = new JFrame("Hiukkasen luonti ei onnistunut");
-            ei_onnistunut.setPreferredSize(new Dimension(400,50));
-            ei_onnistunut.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            ei_onnistunut.pack();
-            ei_onnistunut.setVisible(true);
+            JOptionPane.showMessageDialog(this.frame,"Hiukkasen luonti ei onnistunut","Virhe",JOptionPane.ERROR_MESSAGE);
             
         }
                 

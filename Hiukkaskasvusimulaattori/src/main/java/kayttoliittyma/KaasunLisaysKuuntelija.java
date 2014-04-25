@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -59,11 +60,13 @@ public class KaasunLisaysKuuntelija implements ActionListener{
         }
         catch(Exception ex) {
             // anna ponnahdusikkuna jos luominen ei onnistu
-            JFrame ei_onnistunut = new JFrame("Kaasun luonti ei onnistunut");
-            ei_onnistunut.setPreferredSize(new Dimension(400,50));
-            ei_onnistunut.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            ei_onnistunut.pack();
-            ei_onnistunut.setVisible(true);
+            //JFrame ei_onnistunut = new JFrame("Kaasun luonti ei onnistunut");
+            
+            JOptionPane.showMessageDialog(this.frame,"Kaasun luonti ei onnistunut","Virhe", JOptionPane.ERROR_MESSAGE);
+            //ei_onnistunut.setPreferredSize(new Dimension(400,50));
+            //ei_onnistunut.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            //ei_onnistunut.pack();
+            //ei_onnistunut.setVisible(true);
             
         }
                 

@@ -48,7 +48,7 @@ public class HiukkasenLuomisenKuuntelija implements ActionListener{
         JLabel nimiTeksti = new JLabel("Hiukkasen nimi");
         JLabel sadeTeksti = new JLabel("Säde [nm]");
         JLabel tiheysTeksti = new JLabel("Tiheys [kg/m^3]");
-        JLabel lampotilaTeksti = new JLabel("Kaasun lämpötila [K]");
+        JLabel lampotilaTeksti = new JLabel("Hiukkasen lämpötila [K]");
         JLabel tyhjakentta = new JLabel("");
         
         JTextField nimiKentta = new JTextField();
