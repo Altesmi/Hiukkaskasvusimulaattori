@@ -75,6 +75,16 @@ public class Datankeraaja {
         
     }
     
+    public void nollaaKaikki() {
+        
+        this.aika.clear();
+        this.sade.clear();
+        this.pitoisuus.clear();
+        this.lampotila.clear();
+        this.paine.clear();
+        this.apu.clear();
+    }
+    
     public int pituus() {
         //Palauttaa -1 jos kaikki arraylistit eivät ole samanmittaisia
         //jolloin jotain on mennyt pahasti pieleen

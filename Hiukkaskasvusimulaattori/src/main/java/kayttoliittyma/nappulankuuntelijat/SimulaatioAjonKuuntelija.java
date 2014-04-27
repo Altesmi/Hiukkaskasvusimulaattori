@@ -1,5 +1,5 @@
 
-package kayttoliittyma;
+package kayttoliittyma.nappulankuuntelijat;
 
 
 import java.awt.event.ActionEvent;
@@ -11,6 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import java.awt.Event;
+import kayttoliittyma.Pallo;
+import kayttoliittyma.PallonPiirtopohja;
+import kayttoliittyma.Simulaatio;
 
 
 /**
@@ -105,9 +108,11 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
         while(!simulaatio.tarkistaOnkoSimulaatioLopetettava()) {
             simulaatio.getIlmakeha().kasvataHiukkasta(1.0);
             simulaatio.getIlmakeha().edistaAikaa(1.0);
+            simulaatio.getData().tallennaAikaAskeleenTiedot();
             if(kierros%1000==0) {
                 pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
                 pallonpohja.paint(pallonpohja.getGraphics());
+
             }
             kierros++;
             

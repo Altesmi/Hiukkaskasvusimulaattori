@@ -1,6 +1,11 @@
 
 package kayttoliittyma;
 
+import kayttoliittyma.nappulankuuntelijat.PaivitysNapinKuuntelija;
+import kayttoliittyma.nappulankuuntelijat.HiukkasenLuomisenKuuntelija;
+import kayttoliittyma.nappulankuuntelijat.KaasunLuomisenKuuntelija;
+import kayttoliittyma.nappulankuuntelijat.SimulaatioAjonKuuntelija;
+import kayttoliittyma.nappulankuuntelijat.TallennaDataKuuntelija;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -51,11 +56,11 @@ public class Kayttoliittyma implements Runnable {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         PallonPiirtopohja hiukkasenPohja = new PallonPiirtopohja(Color.WHITE, this.pallo,500,300);
-        PallonPiirtopohja kuvaajanPohja = new PallonPiirtopohja(Color.WHITE,this.pallo,500,300); 
+        KuvaajanPiirtopohja kuvaajanPohja = new KuvaajanPiirtopohja(Color.WHITE,this.simulaatio.getData(),500,300); 
         KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija(this.simulaatio.getIlmakeha());
         HiukkasenLuomisenKuuntelija hiukkaskuuntelija = new HiukkasenLuomisenKuuntelija(this.simulaatio.getIlmakeha());
         SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio);
-        
+        TallennaDataKuuntelija tallennuskuuntelija = new TallennaDataKuuntelija(this.simulaatio, frame);
         sailio.setLayout(layout);
     //JTextArea textAreaOikea = new JTextArea(simulaatio.tulostaHiukkasenSade());
         JButton luoKaasu = new JButton("Luo kaasu");
@@ -68,6 +73,7 @@ public class Kayttoliittyma implements Runnable {
         ajaSimulaatio.addActionListener(simulaatiokuuntelija);
         
         JButton tallennaData = new JButton("Tallenna data");
+        tallennaData.addActionListener(tallennuskuuntelija);
         
         JPanel nappulaPaneeli = new JPanel(new GridBagLayout());
         

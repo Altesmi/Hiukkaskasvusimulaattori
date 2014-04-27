@@ -31,5 +31,7 @@ Ensimmäinen pit-raportti.  Määrittelyvaiheen luokkakaavio. 9,0h
 Tekstialue, joka kertoo simuloitavan systeemin tiedot,
 ensimmäinen jar-paketti. 4,5h
 
+**Su 27.4.2014** Simulaattori toiminnallinen kuvaajan piirtämistä lukuunottamatta. Dokumentointia puuttuu vielä paljon. 4,5h
 
-#### YHT 65,0 h
+
+#### YHT 69,5 h

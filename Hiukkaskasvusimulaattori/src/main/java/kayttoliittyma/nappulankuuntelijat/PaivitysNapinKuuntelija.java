@@ -1,10 +1,11 @@
 
-package kayttoliittyma;
+package kayttoliittyma.nappulankuuntelijat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import javax.swing.JTextArea;
+import kayttoliittyma.Simulaatio;
 
 /**
  * Päivittää hiukkasen kaasun ja ilmakehän tekstin käyttöliittymässä

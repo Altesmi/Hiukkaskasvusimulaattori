@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import logiikka.Hiukkanen;
 import logiikka.Kaasu;
 import logiikka.Ilmakeha;
+import datankasittelijat.Datankeraaja;
 /**
  * Simulaation logiikka käyttöliittymälle
  * @author Olli-Pekka Tikkanen
@@ -17,6 +18,7 @@ public class Simulaatio {
     private Ilmakeha ilmakeha;
     private double lopetusaika;
     private double lopetussade;
+    private Datankeraaja data;
     
     public Simulaatio(Hiukkanen hiukkanen, Kaasu kaasu, double lampotila, 
             double lopetusaika, double lopetussade, double paine) {
@@ -28,6 +30,7 @@ public class Simulaatio {
         this.ilmakeha = new Ilmakeha(this.hiukkanen,this.kaasu,paine,lampotila,0.0);
         this.lopetusaika = lopetusaika;
         this.lopetussade = lopetussade;
+        this.data = new Datankeraaja(this.ilmakeha);
         
     }
     
@@ -49,6 +52,14 @@ public class Simulaatio {
     
     public void setLopetussade(double lopetussade) {
         this.lopetussade = lopetussade;
+    }
+    
+    public Datankeraaja getData() {
+        return this.data;
+    }
+    
+    public void setData(Datankeraaja data) {
+        this.data = data;
     }
     
     public boolean tarkistaOnkoSimulaatioLopetettava() {

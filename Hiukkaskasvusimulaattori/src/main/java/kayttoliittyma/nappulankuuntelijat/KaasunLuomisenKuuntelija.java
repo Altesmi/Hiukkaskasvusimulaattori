@@ -1,5 +1,5 @@
 
-package kayttoliittyma;
+package kayttoliittyma.nappulankuuntelijat;
 
 import logiikka.Ilmakeha;
 import java.awt.event.ActionEvent;
@@ -17,21 +17,23 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
+
 /**
- *
- * @author optikkanen
+ * Kuuntelee painetaanko "luo kaasu" nappulaa ja näin tapahtuessa
+ * aloittaa dialogin jossa kaasun ominaisuudet tallennetaan.
+ * 
+ * @author Olli-Pekka Tikkanen
  */
-public class HiukkasenLuomisenKuuntelija implements ActionListener{
-    
+public class KaasunLuomisenKuuntelija implements ActionListener{
     private Ilmakeha ilmakeha;
     
-    public HiukkasenLuomisenKuuntelija(Ilmakeha ilmakeha) {
+    public KaasunLuomisenKuuntelija(Ilmakeha ilmakeha) {
         this.ilmakeha = ilmakeha;
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-       JFrame kyselyFrame = new JFrame("Luo hiukkanen");
+       JFrame kyselyFrame = new JFrame("Luo kaasu");
        kyselyFrame.setPreferredSize(new Dimension(350,300));
        kyselyFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
        
@@ -42,30 +44,39 @@ public class HiukkasenLuomisenKuuntelija implements ActionListener{
     
    private void luoKysely(Container sailio, JFrame frame) {
         
-        GridLayout hiukkanenLayout = new GridLayout(4,2);
-        sailio.setLayout(hiukkanenLayout);
+        GridLayout kaasuLayout = new GridLayout(6,2);
+        sailio.setLayout(kaasuLayout);
         
-        JLabel nimiTeksti = new JLabel("Hiukkasen nimi");
-        JLabel sadeTeksti = new JLabel("Säde [nm]");
+        JLabel nimiTeksti = new JLabel("Kaasun nimi");
+        JLabel moolimassaTeksti = new JLabel("Moolimassa [kg/mol]");
         JLabel tiheysTeksti = new JLabel("Tiheys [kg/m^3]");
+        JLabel difftilTeksti = new JLabel("Diffuusiotilavuus");
+        JLabel pitoisuusTeksti = new JLabel("Pitoisuus [#/cm^3]");
         JLabel tyhjakentta = new JLabel("");
         
         JTextField nimiKentta = new JTextField();
-        JTextField sadeKentta = new JTextField();
+        JTextField moolimassaKentta = new JTextField();
         JTextField tiheysKentta = new JTextField();
+        JTextField difftilKentta = new JTextField();
+        JTextField pitoisuusKentta = new JTextField();
         
-        JButton lisaaNappi = new JButton("Lisää hiukkanen");
+        JButton lisaaNappi = new JButton("Lisää kaasu");
         
-        HiukkasenLisaysKuuntelija lisayskuuntelija = new HiukkasenLisaysKuuntelija(nimiKentta, sadeKentta, tiheysKentta,
-                                                                              this.ilmakeha, frame);
+        KaasunLisaysKuuntelija lisayskuuntelija = new KaasunLisaysKuuntelija(nimiKentta, moolimassaKentta, tiheysKentta,
+                                                                            difftilKentta, pitoisuusKentta, 
+                                                                            this.ilmakeha, frame);
         lisaaNappi.addActionListener(lisayskuuntelija);
         
         sailio.add(nimiTeksti);
         sailio.add(nimiKentta);
-        sailio.add(sadeTeksti);
-        sailio.add(sadeKentta);
+        sailio.add(moolimassaTeksti);
+        sailio.add(moolimassaKentta);
         sailio.add(tiheysTeksti);
         sailio.add(tiheysKentta);
+        sailio.add(difftilTeksti);
+        sailio.add(difftilKentta);
+        sailio.add(pitoisuusTeksti);
+        sailio.add(pitoisuusKentta);
         sailio.add(tyhjakentta);
         sailio.add(lisaaNappi);
         
