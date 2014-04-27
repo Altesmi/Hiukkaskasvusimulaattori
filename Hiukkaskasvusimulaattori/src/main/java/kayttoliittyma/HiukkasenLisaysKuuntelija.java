@@ -19,16 +19,14 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
     private JTextField nimi;
     private JTextField sade;
     private JTextField tiheys;
-    private JTextField lampotila;
     private Ilmakeha ilmakeha;
     private JFrame frame;
     
     public HiukkasenLisaysKuuntelija(JTextField nimi,JTextField sade, JTextField tiheys, 
-            JTextField lampotila, Ilmakeha ilmakeha, JFrame frame) {
+             Ilmakeha ilmakeha, JFrame frame) {
         this.nimi = nimi;
         this.sade = sade;
         this.tiheys = tiheys;
-        this.lampotila = lampotila;
         this.ilmakeha = ilmakeha;
         this.frame = frame;
     }
@@ -37,11 +35,21 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         try {
+            Hiukkanen edellinen_hiukkanen = ilmakeha.getHiukkanen();
             Hiukkanen hiukkanen = new Hiukkanen(this.nimi.getText(), Double.parseDouble(this.sade.getText())*1e-9, 
-                                Double.parseDouble(this.tiheys.getText()), Double.parseDouble(this.lampotila.getText()));
+                                Double.parseDouble(this.tiheys.getText()), 0.0);
         
             this.ilmakeha.setHiukkanen(hiukkanen);
+            //Tarkistus negatiivisten ja nollan varalta
+            //Lisäksi sallitaan vain hiukkasen säde väliltä 0-500nm
+            if(hiukkanen.getSade()<0.1e-9 || hiukkanen.getSade()>500.0e-9 || hiukkanen.getTiheys()<=0.0
+                    || hiukkanen.getTiheys()>=10000.0) {
+                JOptionPane.showMessageDialog(this.frame,"Hiukkasen ominaisuuksien on oltava positiivisia! \nLisäksi säteen on oltava väliltä 0.1-500 nm \n"
+                        +"ja tiheyden väliltä 0-10000 kg/m^3","Virhe", JOptionPane.ERROR_MESSAGE);
+                this.ilmakeha.setHiukkanen(edellinen_hiukkanen);
+                return;
             
+            }
             this.frame.setVisible(false);
             this.frame.dispose();
             

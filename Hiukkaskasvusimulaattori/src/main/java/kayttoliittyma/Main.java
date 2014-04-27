@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         Hiukkanen hiukkanen = new Hiukkanen("alku",0.0,0.0,0.0);
         Kaasu kaasu = new Kaasu("alku",0.0,0.0,0.0,0.0,0.0);
-        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(new Simulaatio(hiukkanen,kaasu,0.0,0.0,0.0,0.0),new Pallo(10.0));
+        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(new Simulaatio(hiukkanen,kaasu,0.0,0.0,0.0,0.0),new Pallo(0.0),900,900);
         SwingUtilities.invokeLater(kayttoliittyma);
         
     }

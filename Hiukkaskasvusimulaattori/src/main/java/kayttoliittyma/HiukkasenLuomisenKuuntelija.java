@@ -42,24 +42,22 @@ public class HiukkasenLuomisenKuuntelija implements ActionListener{
     
    private void luoKysely(Container sailio, JFrame frame) {
         
-        GridLayout hiukkanenLayout = new GridLayout(5,2);
+        GridLayout hiukkanenLayout = new GridLayout(4,2);
         sailio.setLayout(hiukkanenLayout);
         
         JLabel nimiTeksti = new JLabel("Hiukkasen nimi");
         JLabel sadeTeksti = new JLabel("Säde [nm]");
         JLabel tiheysTeksti = new JLabel("Tiheys [kg/m^3]");
-        JLabel lampotilaTeksti = new JLabel("Hiukkasen lämpötila [K]");
         JLabel tyhjakentta = new JLabel("");
         
         JTextField nimiKentta = new JTextField();
         JTextField sadeKentta = new JTextField();
         JTextField tiheysKentta = new JTextField();
-        JTextField lampotilaKentta = new JTextField();
         
         JButton lisaaNappi = new JButton("Lisää hiukkanen");
         
         HiukkasenLisaysKuuntelija lisayskuuntelija = new HiukkasenLisaysKuuntelija(nimiKentta, sadeKentta, tiheysKentta,
-                                                                            lampotilaKentta,  this.ilmakeha, frame);
+                                                                              this.ilmakeha, frame);
         lisaaNappi.addActionListener(lisayskuuntelija);
         
         sailio.add(nimiTeksti);
@@ -68,8 +66,6 @@ public class HiukkasenLuomisenKuuntelija implements ActionListener{
         sailio.add(sadeKentta);
         sailio.add(tiheysTeksti);
         sailio.add(tiheysKentta);
-        sailio.add(lampotilaTeksti);
-        sailio.add(lampotilaKentta);
         sailio.add(tyhjakentta);
         sailio.add(lisaaNappi);
         

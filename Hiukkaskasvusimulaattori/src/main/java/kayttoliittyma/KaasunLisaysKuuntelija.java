@@ -23,18 +23,16 @@ public class KaasunLisaysKuuntelija implements ActionListener{
     private JTextField moolimassa;
     private JTextField nimi;
     private JTextField tiheys;
-    private JTextField lampotila;
     private JTextField diffuusio_tilavuus;
     private JTextField pitoisuus;
     private Ilmakeha ilmakeha;
     private JFrame frame;
     
     public KaasunLisaysKuuntelija(JTextField nimi,JTextField moolimassa, JTextField tiheys, 
-            JTextField lampotila, JTextField diffuusio_tilavuus, JTextField pitoisuus, Ilmakeha ilmakeha, JFrame frame) {
+             JTextField diffuusio_tilavuus, JTextField pitoisuus, Ilmakeha ilmakeha, JFrame frame) {
         this.moolimassa = moolimassa;
         this.nimi = nimi;
         this.tiheys = tiheys;
-        this.lampotila = lampotila;
         this.diffuusio_tilavuus = diffuusio_tilavuus;
         this.pitoisuus = pitoisuus;
         this.ilmakeha = ilmakeha;
@@ -46,11 +44,25 @@ public class KaasunLisaysKuuntelija implements ActionListener{
         
         //Yritä luoda kaasu ja asettaa se ilmakehan kaasuksi
         try {
+            Kaasu edellinen_kaasu = this.ilmakeha.getKaasu();
             Kaasu kaasu = new Kaasu(this.nimi.getText(), Double.parseDouble(this.moolimassa.getText()), 
-                                Double.parseDouble(this.tiheys.getText()), Double.parseDouble(this.lampotila.getText()),        
+                                Double.parseDouble(this.tiheys.getText()), 0.0,        
                                 Double.parseDouble(this.diffuusio_tilavuus.getText()), Double.parseDouble(this.pitoisuus.getText())*1e6);
-        
+            
             this.ilmakeha.setKaasu(kaasu);
+            //Tarkistetaan onko jokin arvoista annettu ei-positiivisena
+            if(kaasu.getMoolimassa()<=0.0  || kaasu.getMoolimassa() > 100.0|| kaasu.getDiffuusiotilavuus()<=0.0 || 
+                 kaasu.getDiffuusiotilavuus()>1000.0 ||kaasu.getPitoisuus()<=0.0  || kaasu.getPitoisuus()> 1e12 
+                    || kaasu.getTiheys()<=0.0 || kaasu.getTiheys()>10000.0) {
+                JOptionPane.showMessageDialog(this.frame,"Kaasun ominaisuuksien on oltava seuraavat:\n"
+                        + "Moolimassa: >0.0-100 kg/mol\n"
+                        + "Diffuusiotilavuus: >0.0-1000\n"
+                        + "Pitoisuus: >0.0-1e12 #/cm^3\n"
+                        + "Tiheys: >0.0-10000 kg/m^3","Virhe", JOptionPane.ERROR_MESSAGE);
+                this.ilmakeha.setKaasu(edellinen_kaasu);
+                return;
+            }
+            
             
             //Suljetaan kaasunluonti-ikkuna
             

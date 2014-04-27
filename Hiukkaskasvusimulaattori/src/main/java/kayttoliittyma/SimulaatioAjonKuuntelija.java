@@ -36,76 +36,84 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         //Kysy simulaation lopetusehdot
         JOptionPane lopetus_ehdot = new JOptionPane();
+        JTextField lopetussadeTeksti = new JTextField();
+        JTextField lopetusaikaTeksti = new JTextField();
+        JTextField lampotilaTeksti = new JTextField();
+        JTextField paineTeksti = new JTextField();
+        
         double lopetus_sade;
         double lopetus_aika;
         double lampotila;
         double paine;
         
-        try{
-            String lopetus_sade_string = (String)lopetus_ehdot.showInputDialog(
-                                                this.frame,"Anna lopetussäde [nm]","Lopetusehdot(1/4)",
-                                                JOptionPane.PLAIN_MESSAGE,null,null,null);
-            lopetus_sade = Double.parseDouble(lopetus_sade_string) * 1e-9;
+        Object[] kysymykset = {
+            "Ilmakehän lämpötila [K]: ", lampotilaTeksti,
+            "Ilmakehän paine [atm]: ", paineTeksti,
+            "Lopetussäde [nm]", lopetussadeTeksti,
+            "Lopetusaika [h]", lopetusaikaTeksti
             
-        }
-        catch(Exception ex){
-
-             JOptionPane.showMessageDialog(this.frame,"Lopetussäteen asettaminen ei onnistunut","Virhe",JOptionPane.ERROR_MESSAGE);
+        };
+        
+        int kyselynarvo = lopetus_ehdot.showConfirmDialog(null,kysymykset,"Simulaation arvot", JOptionPane.OK_CANCEL_OPTION);
+        
+        if(kyselynarvo == JOptionPane.OK_OPTION) {
+            try{
+                lopetus_sade = Double.parseDouble(lopetussadeTeksti.getText())*1e-9;
+                lopetus_aika = Double.parseDouble(lopetusaikaTeksti.getText())*3600.0;
+                lampotila = Double.parseDouble(lampotilaTeksti.getText());
+                paine = Double.parseDouble(paineTeksti.getText());
+                               //Tarkistukset väärien numeroarvojen varalta
+                if(lopetus_sade<=this.simulaatio.getIlmakeha().getHiukkanen().getSade() 
+                        || lopetus_sade > 500*1e-9 || lopetus_aika<=0.0 || lampotila<=0.0 || lampotila>350
+                        || paine <= 0.0 || paine > 10.0) {
+                JOptionPane.showMessageDialog(this.frame,"Simulaation arvot annettu väärin.\n Simulaatiota ei käynnistetä\n"
+                        + "Arvot oltava väliltä:\n"
+                        + "Lopetussäde: suurempi kuin hiukkasen säde - 500 nm\n"
+                        + "Lopetusaika: suurempi kuin 0.0 h\n"
+                        + "Lämpötila: 0-350 K\n"
+                        + "Paine: 0.0 - 10.0 atm",
+                                                "Virhe",JOptionPane.ERROR_MESSAGE);
+                
+                return;
+                    
+                    
+            }
+                ajaSimulaatio(lopetus_sade, lopetus_aika, paine, lampotila, this.simulaatio, this.pallonpohja);
+                
+ 
+            }
+            catch(Exception ex) {
+                JOptionPane.showMessageDialog(this.frame,"Simulaation arvot annettu väärin.\n Simulaatiota ei käynnistetä",
+                                                "Virhe",JOptionPane.ERROR_MESSAGE);
              return;
-        }
-        
-        try {
-            String lopetus_aika_string = (String)lopetus_ehdot.showInputDialog(this.frame,"Anna lopetusaika [s]",
-                                                                               "Lopetusehdot(2/4)", JOptionPane.PLAIN_MESSAGE,null,null,null);
-            lopetus_aika = Double.parseDouble(lopetus_aika_string);
-        }
-        catch(Exception ex) {
-            JOptionPane.showMessageDialog(this.frame, "Lopetusajan asettaminen ei onnistunut","Virhe", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        try {
-            String lampotila_string = (String)lopetus_ehdot.showInputDialog(this.frame,"Anna ilmakehän lämpötila [K]",
-                                                                               "Lopetusehdot(3/4)", JOptionPane.PLAIN_MESSAGE,null,null,null);
-            lampotila = Double.parseDouble(lampotila_string);
-        }
-        catch(Exception ex) {
-            JOptionPane.showMessageDialog(this.frame, "Lämpötilan asettaminen ei onnistunut","Virhe", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        try {
-            String paine_string = (String)lopetus_ehdot.showInputDialog(this.frame,"Anna ilmakehän paine [atm]",
-                                                                               "Lopetusehdot(3/4)", JOptionPane.PLAIN_MESSAGE,null,null,null);
-            paine = Double.parseDouble(paine_string);
-        }
-        catch(Exception ex) {
-            JOptionPane.showMessageDialog(this.frame, "Paineen asettaminen ei onnistunut","Virhe", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        /*Ajetaan simulaatio*/
-        
-        ajaSimulaatio(lopetus_sade, lopetus_aika, paine, lampotila, this.simulaatio, this.pallonpohja);
-        
+            }
+        }        
         
     }
     
     private void ajaSimulaatio(double lopetussade, double lopetusaika, double paine, double lampotila, Simulaatio simulaatio, PallonPiirtopohja pallonpohja) {
-        
+        int kierros;
+        simulaatio.getIlmakeha().setAika(0.0);
         simulaatio.setLopetussade(lopetussade);
         simulaatio.setLopetusaika(lopetusaika);
         simulaatio.getIlmakeha().setPaine(paine);
         simulaatio.getIlmakeha().setLampotila(lampotila);
         pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
         pallonpohja.repaint();
+        
+        kierros = 1;
         while(!simulaatio.tarkistaOnkoSimulaatioLopetettava()) {
             simulaatio.getIlmakeha().kasvataHiukkasta(1.0);
             simulaatio.getIlmakeha().edistaAikaa(1.0);
-            pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
-            pallonpohja.paint(pallonpohja.getGraphics());
-
+            if(kierros%1000==0) {
+                pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
+                pallonpohja.paint(pallonpohja.getGraphics());
+            }
+            kierros++;
+            
         }
+        pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
+
     }
         
 }

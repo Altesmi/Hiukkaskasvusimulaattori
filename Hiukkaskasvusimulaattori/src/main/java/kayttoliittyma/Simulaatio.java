@@ -21,11 +21,11 @@ public class Simulaatio {
     public Simulaatio(Hiukkanen hiukkanen, Kaasu kaasu, double lampotila, 
             double lopetusaika, double lopetussade, double paine) {
         
-        this.hiukkanen = hiukkanen;
-        this.kaasu = kaasu;
-        //this.hiukkanen = new Hiukkanen("Hiukkanen",0.75e-9,1800,298.15);
-        //this.rikkihappo = new Kaasu("Rikkihappo",0.098079,1800.0,298.15,50.17,1e14);
-        this.ilmakeha = new Ilmakeha(hiukkanen,kaasu,paine,lampotila,0.0);
+        //this.hiukkanen = hiukkanen;
+        //this.kaasu = kaasu;
+        this.hiukkanen = new Hiukkanen("Hiukkanen",10e-9,1800,298.15);
+        this.kaasu = new Kaasu("Rikkihappo",0.098079,1800.0,298.15,50.17,1e13);
+        this.ilmakeha = new Ilmakeha(this.hiukkanen,this.kaasu,paine,lampotila,0.0);
         this.lopetusaika = lopetusaika;
         this.lopetussade = lopetussade;
         

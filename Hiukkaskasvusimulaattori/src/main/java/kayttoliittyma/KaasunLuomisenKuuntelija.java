@@ -44,13 +44,12 @@ public class KaasunLuomisenKuuntelija implements ActionListener{
     
    private void luoKysely(Container sailio, JFrame frame) {
         
-        GridLayout kaasuLayout = new GridLayout(7,2);
+        GridLayout kaasuLayout = new GridLayout(6,2);
         sailio.setLayout(kaasuLayout);
         
         JLabel nimiTeksti = new JLabel("Kaasun nimi");
         JLabel moolimassaTeksti = new JLabel("Moolimassa [kg/mol]");
         JLabel tiheysTeksti = new JLabel("Tiheys [kg/m^3]");
-        JLabel lampotilaTeksti = new JLabel("Kaasun lämpötila [K]");
         JLabel difftilTeksti = new JLabel("Diffuusiotilavuus");
         JLabel pitoisuusTeksti = new JLabel("Pitoisuus [#/cm^3]");
         JLabel tyhjakentta = new JLabel("");
@@ -58,14 +57,13 @@ public class KaasunLuomisenKuuntelija implements ActionListener{
         JTextField nimiKentta = new JTextField();
         JTextField moolimassaKentta = new JTextField();
         JTextField tiheysKentta = new JTextField();
-        JTextField lampotilaKentta = new JTextField();
         JTextField difftilKentta = new JTextField();
         JTextField pitoisuusKentta = new JTextField();
         
         JButton lisaaNappi = new JButton("Lisää kaasu");
         
         KaasunLisaysKuuntelija lisayskuuntelija = new KaasunLisaysKuuntelija(nimiKentta, moolimassaKentta, tiheysKentta,
-                                                                            lampotilaKentta, difftilKentta, pitoisuusKentta, 
+                                                                            difftilKentta, pitoisuusKentta, 
                                                                             this.ilmakeha, frame);
         lisaaNappi.addActionListener(lisayskuuntelija);
         
@@ -75,8 +73,6 @@ public class KaasunLuomisenKuuntelija implements ActionListener{
         sailio.add(moolimassaKentta);
         sailio.add(tiheysTeksti);
         sailio.add(tiheysKentta);
-        sailio.add(lampotilaTeksti);
-        sailio.add(lampotilaKentta);
         sailio.add(difftilTeksti);
         sailio.add(difftilKentta);
         sailio.add(pitoisuusTeksti);

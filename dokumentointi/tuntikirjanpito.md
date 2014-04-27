@@ -27,5 +27,9 @@ Ensimmäinen pit-raportti.  Määrittelyvaiheen luokkakaavio. 9,0h
 
 **Pe 25.4.2014** Piirtämisen opettelua silmukassa. Aika hitaalta näyttää, on opeteltava lisää. Aja simulaatio -napille simulaatioehtojen kysely. Projektin demoaminen. 5,0h
 
+**La 26.4.2014** Nappuloiden toiminnallisuutta lisätty
+Tekstialue, joka kertoo simuloitavan systeemin tiedot,
+ensimmäinen jar-paketti. 4,5h
 
-#### YHT 60,5 h
+
+#### YHT 65,0 h

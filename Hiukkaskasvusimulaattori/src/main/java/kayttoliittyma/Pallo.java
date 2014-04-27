@@ -4,6 +4,8 @@ package kayttoliittyma;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.Color;
+
 
 /**
  * Luokka piirtää pallon käyttäen javan Sphere-luokkaa
@@ -27,12 +29,18 @@ public class Pallo {
         this.sade = sade;
     }
     
-    public void piirra (Graphics graphics) {
-        //Piirretään ympyrä kunnes keksitään miten pallo piirretään
-        Graphics2D graphics2D = (Graphics2D) graphics;
+    public void piirra (Graphics graphics, int pohjan_leveys, int pohjan_pituus) {
         
-        Ellipse2D.Double ympyra = new Ellipse2D.Double(250,150,this.sade,this.sade);
-        graphics2D.draw(ympyra);
+        double keskipiste_x = pohjan_leveys/2.0 - this.sade/2.0;
+        double keskipiste_y = pohjan_pituus/2.0 - this.sade/2.0;
+        
+        
+        Graphics2D g2 = (Graphics2D) graphics;
+        g2.setPaint(Color.ORANGE);
+        
+        Ellipse2D.Double ympyra = new Ellipse2D.Double(keskipiste_x,keskipiste_y,this.sade,this.sade);
+
+        g2.fill(ympyra);
     }
     
     
