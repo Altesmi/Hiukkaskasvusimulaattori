@@ -14,6 +14,7 @@ import java.awt.Event;
 import kayttoliittyma.Pallo;
 import kayttoliittyma.PallonPiirtopohja;
 import kayttoliittyma.Simulaatio;
+import kayttoliittyma.KuvaajanPiirtopohja;
 
 
 /**
@@ -27,12 +28,15 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
     private PallonPiirtopohja pallonpohja;
     private JFrame frame;
     private Simulaatio simulaatio;
+    private KuvaajanPiirtopohja kuvaaja;
     
     
-    public SimulaatioAjonKuuntelija(PallonPiirtopohja pallonpohja, JFrame frame, Simulaatio simulaatio) {
+    public SimulaatioAjonKuuntelija(PallonPiirtopohja pallonpohja, 
+            JFrame frame, Simulaatio simulaatio, KuvaajanPiirtopohja kuvaaja) {
         this.pallonpohja = pallonpohja;
         this.frame = frame;
         this.simulaatio = simulaatio;
+        this.kuvaaja = kuvaaja;
     }
     
     @Override
@@ -67,12 +71,12 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
                 paine = Double.parseDouble(paineTeksti.getText());
                                //Tarkistukset väärien numeroarvojen varalta
                 if(lopetus_sade<=this.simulaatio.getIlmakeha().getHiukkanen().getSade() 
-                        || lopetus_sade > 500*1e-9 || lopetus_aika<=0.0 || lampotila<=0.0 || lampotila>350
+                        || lopetus_sade > 500*1e-9 || lopetus_aika<=0.0 || lopetus_aika/3600.0>24.0  || lampotila<=0.0 || lampotila>350
                         || paine <= 0.0 || paine > 10.0) {
                 JOptionPane.showMessageDialog(this.frame,"Simulaation arvot annettu väärin.\n Simulaatiota ei käynnistetä\n"
                         + "Arvot oltava väliltä:\n"
                         + "Lopetussäde: suurempi kuin hiukkasen säde - 500 nm\n"
-                        + "Lopetusaika: suurempi kuin 0.0 h\n"
+                        + "Lopetusaika: suurempi kuin 0.0 - 24.0 h\n"
                         + "Lämpötila: 0-350 K\n"
                         + "Paine: 0.0 - 10.0 atm",
                                                 "Virhe",JOptionPane.ERROR_MESSAGE);
@@ -88,7 +92,6 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
             catch(Exception ex) {
                 JOptionPane.showMessageDialog(this.frame,"Simulaation arvot annettu väärin.\n Simulaatiota ei käynnistetä",
                                                 "Virhe",JOptionPane.ERROR_MESSAGE);
-             return;
             }
         }        
         
@@ -118,7 +121,7 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
             
         }
         pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
-
+        kuvaaja.paint(kuvaaja.getGraphics());
     }
         
 }

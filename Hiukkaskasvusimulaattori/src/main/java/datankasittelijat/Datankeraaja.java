@@ -65,6 +65,81 @@ public class Datankeraaja {
         return this.paine.get(index);
     }
     
+    private double pienin(ArrayList<Double> lista) {
+        int i;
+        if(lista.size()==0) {
+            return 0;
+        }
+        double pienin = lista.get(0);
+        
+        for(i=1;i<lista.size();i++) {
+            
+            if(pienin>lista.get(i)) {
+                pienin = lista.get(i);
+            }
+            
+        }
+        return pienin;
+    }
+    
+    private double suurin(ArrayList<Double> lista) {
+        int i;
+        if(lista.size()==0) {
+            return 0;
+        }
+        double suurin = lista.get(0);
+        
+        for(i=1;i<lista.size();i++) {
+            
+            if(suurin<lista.get(i)) {
+                suurin = lista.get(i);
+            }
+          
+        }
+        return suurin;
+    }
+    
+    public double suurinAika() {
+        return this.suurin(this.aika);
+    }
+    
+    public double pieninAika() {
+        return this.pienin(this.aika);
+    }
+    
+    public double suurinSade() {
+        return this.suurin(this.sade);
+        
+    }
+    
+    public double pieninSade() {
+        return this.pienin(this.sade);
+    }
+    
+    public double suurinPitoisuus() {
+        return this.suurin(this.pitoisuus);
+    }
+    
+    public double pieninPitoisuus() {
+        return this.pienin(this.pitoisuus);
+    }
+    
+    public double suurinLampotila() {
+        return this.suurin(this.lampotila);
+    }
+    
+    public double pieninLampotila() {
+        return this.pienin(this.lampotila);
+    }
+    
+    public double suurinPaine() {
+        return this.suurin(this.paine);
+    }
+    
+    public double pieninPaine() {
+        return this.pienin(this.paine);
+    }
+    
     public void tallennaAikaAskeleenTiedot() {
         
         this.aika.add(this.ilmakeha.getAika());

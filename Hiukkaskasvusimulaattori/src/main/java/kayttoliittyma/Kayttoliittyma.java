@@ -59,7 +59,7 @@ public class Kayttoliittyma implements Runnable {
         KuvaajanPiirtopohja kuvaajanPohja = new KuvaajanPiirtopohja(Color.WHITE,this.simulaatio.getData(),500,300); 
         KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija(this.simulaatio.getIlmakeha());
         HiukkasenLuomisenKuuntelija hiukkaskuuntelija = new HiukkasenLuomisenKuuntelija(this.simulaatio.getIlmakeha());
-        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio);
+        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio, kuvaajanPohja);
         TallennaDataKuuntelija tallennuskuuntelija = new TallennaDataKuuntelija(this.simulaatio, frame);
         sailio.setLayout(layout);
     //JTextArea textAreaOikea = new JTextArea(simulaatio.tulostaHiukkasenSade());

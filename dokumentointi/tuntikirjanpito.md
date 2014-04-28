@@ -33,5 +33,7 @@ ensimmäinen jar-paketti. 4,5h
 
 **Su 27.4.2014** Simulaattori toiminnallinen kuvaajan piirtämistä lukuunottamatta. Dokumentointia puuttuu vielä paljon. 4,5h
 
+**Ma 28.4.2014** Simulaattorin koodi valmis. Jäljellä dokumentointi ja koodin siistiminen. 6,5h
 
-#### YHT 69,5 h
+
+#### YHT 75,0 h

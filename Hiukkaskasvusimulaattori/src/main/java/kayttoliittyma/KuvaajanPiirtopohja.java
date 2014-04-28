@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
+import java.awt.font.TextAttribute;
+import java.text.AttributedString;
+import java.text.DecimalFormat;
 
 
 /**
@@ -20,8 +22,8 @@ public class KuvaajanPiirtopohja extends JPanel{
     private Datankeraaja data;
     private int leveys;
     private int korkeus;
-    private static final int Y_VALI = 15;
-    private static final int X_VALI = 15;
+    private static final int Y_VALI = 60;
+    private static final int X_VALI = 20;
     
     public KuvaajanPiirtopohja (Color pohjavari,Datankeraaja data,int leveys,int korkeus) {
         super.setBackground(pohjavari);
@@ -45,30 +47,71 @@ public class KuvaajanPiirtopohja extends JPanel{
     public void setKorkeus(int korkeus) {
         this.korkeus = korkeus;
     }
+
     
-    /**
-     * Koska kaikki pitää tehdä itse...
-     *
-     */
-    private void kirjoitaPystysuuntaan(String teksti, Graphics2D g2, int alkuX, int alkuY) {
-        int kirjainVali = 10;
-        for(int i=0;i<teksti.length();i++) {
-            g2.drawString(teksti.substring(i,i+1),alkuX,alkuY+(i*kirjainVali));
+    private void piirraAkselit(double maxX, double maxY, 
+                                String xTeksti, String yTeksti, Graphics g) {
+        
+        Graphics2D g2 = (Graphics2D) g;
+        DecimalFormat d = new DecimalFormat("##.#");
+        //Akselit
+        g2.drawLine(Y_VALI, this.korkeus-X_VALI, Y_VALI, 0);
+        g2.drawLine(Y_VALI, this.korkeus-X_VALI, this.leveys , this.korkeus-X_VALI);
+        //Akselien tekstit
+        g2.drawString(xTeksti, this.leveys/2,this.korkeus);
+        g2.rotate(-1.0*Math.PI/2.0);
+        g2.drawString(yTeksti,-2*this.korkeus/3,X_VALI);
+        g2.rotate(Math.PI/2.0);
+        //X-merkit (logartiminen asteikko)
+        int merkkien_maara = 5;
+        double skaalaaValia = 1.15;
+        double maxXlog = Math.log10(maxX);
+        for(int i=0;i<merkkien_maara;i++) {
+            g2.drawLine((this.leveys-Y_VALI)/merkkien_maara*(i+1) + Y_VALI, this.korkeus-X_VALI,
+                         (this.leveys-Y_VALI)/merkkien_maara*(i+1) + Y_VALI, (int)(this.korkeus-X_VALI*skaalaaValia));
+            
         }
+  
+        //Y-merkit (normaali asteikko)
+        for(int i=0;i<merkkien_maara;i++) {
+           g2.drawLine(Y_VALI, (this.korkeus-X_VALI)/merkkien_maara*(i), (int)(Y_VALI*skaalaaValia),(this.korkeus-X_VALI)/merkkien_maara*(i));
+                               double eksponentti = maxXlog*(i+1)/merkkien_maara;
+                    
+            
+        }
+        
+        //X ja Y arvot merkeille
+
+            if(this.data.pituus()==0) {
+                return;
+            }
+            else {
+                for(int i=0;i<merkkien_maara;i++) {
+                    double eksponentti = maxXlog*(i+1)/merkkien_maara;
+                    String luku = "10"+d.format(eksponentti);
+                    AttributedString merkkiX = new AttributedString(luku);
+                    merkkiX.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER, 2, luku.length());
+                    g2.drawString(merkkiX.getIterator(),(this.leveys-Y_VALI)/merkkien_maara*(i+1)+Y_VALI/2, this.korkeus);
+                    
+                    String merkkiY = d.format(maxY*1e9/merkkien_maara*(merkkien_maara-i));
+                    g2.drawString(merkkiY,Y_VALI/2, (this.korkeus-X_VALI)/merkkien_maara*(i)+X_VALI/2);
+                }
+            }
+        
         
     }
     
-    
-    private void piirraAkselit(double minX,double minY,double maxX, double maxY, Graphics g) {
+    private void piirraData(double maxX,double maxY,Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawLine(Y_VALI, this.korkeus-X_VALI, X_VALI, 0);
-        g2.drawLine(Y_VALI, this.korkeus-X_VALI, this.leveys , this.korkeus-X_VALI);
-        g2.drawString("Aika [s]", this.leveys/2,this.korkeus);
-        AffineTransform a = new AffineTransform();
-        a.setToRotation(Math.toRadians(360), X_VALI ,this.korkeus/2);
-        //g2.setTransform(a);
-        //g2.drawString("aaaaaaa",X_VALI,this.korkeus/2);
-        kirjoitaPystysuuntaan("Hiukkasen säde [nm]",g2,0,this.korkeus/2);
+        int x;
+        int y;
+        g2.setColor(Color.BLUE);
+        for(int i=0;i<data.pituus();i++) {
+            x = (int)(Math.log10(data.getAika(i))/Math.log10(maxX) * (this.leveys-Y_VALI)+Y_VALI);
+            y = (int)((1-(data.getSade(i)/maxY))*(this.korkeus-X_VALI));
+            g2.drawOval(x, y, 2, 2);
+            
+        }
         
         
     }
@@ -76,7 +119,13 @@ public class KuvaajanPiirtopohja extends JPanel{
     @Override
     protected void paintComponent(Graphics grafiikka) {
         super.paintComponent(grafiikka);
-        piirraAkselit(0.0,0.0,100.0,100.0,grafiikka);
-
+        piirraAkselit(data.suurinAika(),data.suurinSade(),"Aika [s]", "Hiukkasen säde [nm]", grafiikka);
+        if(data.pituus() == 0) {
+            return;
+        }
+        else {
+            piirraAkselit(data.suurinAika(),data.suurinSade(),"Aika [s]", "Hiukkasen säde [nm]",grafiikka);
+            piirraData(data.suurinAika(),data.suurinSade(),grafiikka);
+        }
     }
 }
