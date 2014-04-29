@@ -87,4 +87,22 @@ public class DatankeraajaTest {
         data.tallennaAikaAskeleenTiedot();
         assertEquals(data.getSade(0)*2.0,2.261e-9,1e-12);
     }
+    
+    @Test
+    public void SuurinArvoLasketaanOikeinTest() {
+        assertEquals(data.suurinAika(),0.0,1e-12);
+        data.tallennaAikaAskeleenTiedot();
+        ilmakeha.setAika(2.0);
+        data.tallennaAikaAskeleenTiedot();
+        assertEquals(data.suurinAika(),2.0,1e-12);
+    }
+    
+    @Test
+    public void pieninArvoLasketaanOikeinTest() {
+        assertEquals(data.pieninAika(),0.0,1e-12);
+        data.tallennaAikaAskeleenTiedot();
+        ilmakeha.setAika(2.0);
+        data.tallennaAikaAskeleenTiedot();
+        assertEquals(data.pieninAika(),0.0,1e-12);
+    }
 }

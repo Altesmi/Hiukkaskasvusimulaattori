@@ -61,7 +61,7 @@ public class TallennaDataKuuntelija implements ActionListener{
                 kirjoitin.kirjoitaTiedostoon();
                 this.simulaatio.getData().nollaaKaikki();
                 JOptionPane.showMessageDialog(this.frame,"Tiedoston tallennus onnistui!",
-                                                "Onnistui!",JOptionPane.YES_OPTION);
+                                                "Onnistui!",JOptionPane.INFORMATION_MESSAGE);
 
             }
             catch(Exception ex) {

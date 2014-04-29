@@ -1,0 +1,7 @@
+# Hiukkaskasvusimulaattorin testausdokumentti
+
+Fysikaalisessa mielessä hiukkaskasvusimulaattorin toimintaa on testattu ajamalla hiukkasen kasvattamisesta vastaavaa metodia omaa kandidaatintutkielmaani vastaavilla arvoilla ja verrattu näitä MATLABilla tehtyyn analyysiin. Huomattavaa on, että koko homman sydämenä oleva differentiaaliyhtälö aerosolihiukkasen säteen muutokselle ajan funktiona ratkaistaan Eulerin menetelmällä, jonka virhe kasvaa suurilla aika-askelilla. Tästä syystä antoipa käyttäjä mitä tahansa arvoja simulaation kestolle simulaatio ajetaan aina sekunti kerrallaan, tämä myös mahdollistaa suuremman aineiston keräämisen simulaatiosta, vaikka teoriassa differentiaaliyhtälö voitaisiin ratkaista yhdellä laskulla.
+
+Käyttöliittymäpuolelta simulaattoria on testattu simulaation maksimi ja miniarvoilla, sekä käyttöohjeessa kuvatuilla esimerkkiarvoilla. Lisäksi jokaista ikkunaa, josta tietoja voidaan syöttää on testattu väärillä syötteillä (merkkijono luvun tilalla) ja luvuilla jotka ovat sallittujen lukujen ylä- tai alapuolella. Simulaation aikana on yritetty kikkailla painelemalla eri nappuloita onnistumatta kaatamaan ohjelmaa. Käyttöliittymää on testattu TKTL:n koneilla (Ubuntu 12.04), simulaattorin ohjelmoijan läppärillä (Ubuntu 12.04) sekä ohjelmoijan kotikoneella (windows 7). Windowsin puolella grafiikka skaalautui eri tavalla, niin että päivitä nappula oli jonkin verran alempana kuin ohjelmoijan läppärillä ajettaessa. Tämä voi johtua myös suuremmasta resoluutiosta. Kaikissa tapauksissa simulaattoria pystyi kuitenkin ajamaan ongelmitta.
+
+

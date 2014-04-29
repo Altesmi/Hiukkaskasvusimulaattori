@@ -16,9 +16,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
 
 public class HiukkasenLisaysKuuntelija implements ActionListener{
        
+    public static final int MAKSIMI_NIMEN_PITUUS = 25;
     private JTextField nimi;
     private JTextField sade;
     private JTextField tiheys;
@@ -51,7 +53,7 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        DecimalFormat d = new DecimalFormat("###.#");
         try {
             Hiukkanen edellinen_hiukkanen = this.simulaatio.getIlmakeha().getHiukkanen();
             Hiukkanen hiukkanen = new Hiukkanen(this.nimi.getText(), Double.parseDouble(this.sade.getText())*1e-9, 
@@ -61,9 +63,11 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
             if(hiukkanen.getSade()< this.simulaatio.MINIMI_HIUKKASEN_SADE 
                     || hiukkanen.getSade()>this.simulaatio.MAKSIMI_HIUKKASEN_SADE 
                     || hiukkanen.getTiheys()< this.simulaatio.MINIMI_TIHEYS
-                    || hiukkanen.getTiheys()>=this.simulaatio.MAKSIMI_TIHEYS) {
+                    || hiukkanen.getTiheys()> this.simulaatio.MAKSIMI_TIHEYS
+                    || hiukkanen.getNimi().length() > this.MAKSIMI_NIMEN_PITUUS) {
                 JOptionPane.showMessageDialog(this.frame,"Hiukkasen ominaisuuksien mahdolliset arvot: \n"
-                        + "Säde: " + this.simulaatio.MINIMI_HIUKKASEN_SADE + " - " + this.simulaatio.MAKSIMI_HIUKKASEN_SADE + " nm\n"
+                        + "Nimi: maksimissaan " + this.MAKSIMI_NIMEN_PITUUS + " merkkiä \n"
+                        + "Säde: " + d.format(this.simulaatio.MINIMI_HIUKKASEN_SADE*1e9) + " - " + d.format(this.simulaatio.MAKSIMI_HIUKKASEN_SADE*1e9) + " nm\n"
                         + "Tiheys: " + this.simulaatio.MINIMI_TIHEYS + " - " + this.simulaatio.MAKSIMI_TIHEYS + " kg/m^3","Virhe", JOptionPane.ERROR_MESSAGE);
                 
                 this.simulaatio.getIlmakeha().setHiukkanen(edellinen_hiukkanen);

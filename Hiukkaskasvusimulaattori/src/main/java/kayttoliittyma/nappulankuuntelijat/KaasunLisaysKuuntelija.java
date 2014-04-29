@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class KaasunLisaysKuuntelija implements ActionListener{
     
+    public static final int MAKSIMI_NIMEN_PITUUS = 25;
     private JTextField moolimassa;
     private JTextField nimi;
     private JTextField tiheys;
@@ -68,15 +69,17 @@ public class KaasunLisaysKuuntelija implements ActionListener{
             
             this.simulaatio.getIlmakeha().setKaasu(kaasu);
 
-            if(kaasu.getMoolimassa()<=this.simulaatio.MINIMI_MOOLIMASSA
+            if(kaasu.getMoolimassa()< this.simulaatio.MINIMI_MOOLIMASSA
                     || kaasu.getMoolimassa() > this.simulaatio.MAKSIMI_MOOLIMASSA
                     || kaasu.getDiffuusiotilavuus()<this.simulaatio.MINIMI_DIFFUUSIO_TILAVUUS 
                     || kaasu.getDiffuusiotilavuus()>this.simulaatio.MAKSIMI_DIFFUUSIO_TILAVUUS
                     || kaasu.getPitoisuus()< this.simulaatio.MINIMI_PITOISUUS  
                     || kaasu.getPitoisuus()> this.simulaatio.MAKSIMI_PITOISUUS 
                     || kaasu.getTiheys()< this.simulaatio.MINIMI_TIHEYS 
-                    || kaasu.getTiheys()> this.simulaatio.MAKSIMI_TIHEYS) {
+                    || kaasu.getTiheys()> this.simulaatio.MAKSIMI_TIHEYS
+                    || kaasu.getNimi().length() > this.MAKSIMI_NIMEN_PITUUS) {
                 JOptionPane.showMessageDialog(this.frame,"Kaasun ominaisuuksien on oltava:\n"
+                        + "Nimi: maksimissaan " + this.MAKSIMI_NIMEN_PITUUS + " merkkiä \n"
                         + "Moolimassa: " + this.simulaatio.MINIMI_MOOLIMASSA + " - " + this.simulaatio.MAKSIMI_MOOLIMASSA + "kg/mol \n"
                         + "Diffuusiotilavuus: " + this.simulaatio.MINIMI_DIFFUUSIO_TILAVUUS + " - " + this.simulaatio.MAKSIMI_DIFFUUSIO_TILAVUUS + "\n"
                         + "Pitoisuus: " + this.simulaatio.MINIMI_PITOISUUS + " - " + this.simulaatio.MAKSIMI_PITOISUUS + " #/cm^3 \n"

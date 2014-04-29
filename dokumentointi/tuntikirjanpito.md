@@ -35,5 +35,7 @@ ensimmäinen jar-paketti. 4,5h
 
 **Ma 28.4.2014** Simulaattorin koodi valmis. Jäljellä dokumentointi ja koodin siistiminen. 6,5h
 
+**Ti-Ke 29.-30.4.2014** Viimeinen rutistus. JavaDoc, viimeiset testit ja testausdokumentti, aiheen kuvauksen päivitys, rakennekuvaus, päivitetty luokkakaavio, päivitetty kaksi sekvenssikaaviota ja tehty kaksi sekvenssikaaviota lisää (muotoa final_..). Viime hetken muutoksia koodiin: hiukkasen ja kaasun nimellä on maksimimerkkimäärä tai muuten simulaattorin pystyisi saamaan toimimattomaksi, tai ainakin piilottaa kuvaajat. uusi pit-raportti, käyttöohjeet. Projekti valmis arvosteltavaksi. 10,0h
 
-#### YHT 75,0 h
+
+#### YHT 85,0 h
