@@ -22,6 +22,11 @@ public class Datankeraaja {
     private Ilmakeha ilmakeha;
     private ArrayList<ArrayList<Double>> apu;
     
+    /**
+     * Datankerääjä-luokan konstruktori
+     * 
+     * @param ilmakeha Ilmakehä-luokka, josta tietoja haetaan ja tallennetaan pyydettäessä
+     */
     public Datankeraaja(Ilmakeha ilmakeha) {
         this.ilmakeha = ilmakeha;
         
@@ -192,7 +197,7 @@ public class Datankeraaja {
         
     }
     /**
-     * Puhdistaa jokaisen ArrayListin
+     * Puhdistaa (nollaa) jokaisen ArrayListin
      */
     public void nollaaKaikki() {
         

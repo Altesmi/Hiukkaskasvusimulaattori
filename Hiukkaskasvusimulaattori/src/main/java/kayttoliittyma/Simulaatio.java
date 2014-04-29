@@ -2,7 +2,6 @@
 package kayttoliittyma;
 
 
-import java.text.DecimalFormat;
 import logiikka.Hiukkanen;
 import logiikka.Kaasu;
 import logiikka.Ilmakeha;
@@ -39,6 +38,15 @@ public class Simulaatio {
     private double lopetussade;
     private Datankeraaja data;
     
+    /**
+     * Simulaatio-luokan konstruktori
+     * @param hiukkanen Ilmakehän aerosolihiukkanen
+     * @param kaasu Ilmakehässä oleva, tiivistyvä, kaasu
+     * @param lampotila Ilmakehän lämpötila
+     * @param lopetusaika Simulaation lopetusaika
+     * @param lopetussade Simulaation hiukkasen lopetussäde
+     * @param paine Ilmakehän paine
+     */
     public Simulaatio(Hiukkanen hiukkanen, Kaasu kaasu, double lampotila, 
             double lopetusaika, double lopetussade, double paine) {
         
@@ -107,7 +115,8 @@ public class Simulaatio {
      * @param kuvaaja Kuvaaja-olio kuvaajan piirtämistä varten simulaation päätyttyä.
      */
     public void ajaSimulaatio(double lopetussade, double lopetusaika, double paine, double lampotila, 
-            PallonPiirtopohja pallonpohja, Kuvaaja kuvaaja) {
+        PallonPiirtopohja pallonpohja, Kuvaaja kuvaaja) {
+        double sade;
         int kierros;
         this.ilmakeha.setAika(0.0);
         this.setLopetussade(lopetussade);
@@ -117,20 +126,24 @@ public class Simulaatio {
         pallonpohja.setPallo(new Pallo(this.hiukkanen.getSade()*1e9));
         pallonpohja.repaint();
         
+        //Asetetaan kaikki nappulat pois päältä
+        
         kierros = 1;
         while(!this.tarkistaOnkoSimulaatioLopetettava()) {
             this.ilmakeha.kasvataHiukkasta(1.0);
             this.ilmakeha.edistaAikaa(1.0);
             this.data.tallennaAikaAskeleenTiedot();
             if(kierros%100==0) {
-                pallonpohja.setPallo(new Pallo(this.ilmakeha.getHiukkanen().getSade()*1e9));
+                sade = pallonpohja.getKorkeus()*(this.ilmakeha.getHiukkanen().getSade()/this.MAKSIMI_HIUKKASEN_SADE);
+                pallonpohja.setPallo(new Pallo(sade));
                 pallonpohja.paint(pallonpohja.getGraphics());
 
             }
             kierros++;
             
         }
-        pallonpohja.setPallo(new Pallo(this.ilmakeha.getHiukkanen().getSade()*1e9));
+        sade = pallonpohja.getKorkeus()*(this.ilmakeha.getHiukkanen().getSade()/this.MAKSIMI_HIUKKASEN_SADE);
+        pallonpohja.setPallo(new Pallo(sade));
         kuvaaja.getGraphics().dispose();
         kuvaaja.paint(kuvaaja.getGraphics());
     }

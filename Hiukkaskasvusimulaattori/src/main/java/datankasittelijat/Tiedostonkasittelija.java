@@ -13,6 +13,11 @@ public class Tiedostonkasittelija {
     private Datankeraaja data;
     private String tiedoston_nimi;
     
+    /**
+     * Tiedostonkasittelija-luokan konstruktori
+     * @param data tallennettava data
+     * @param nimi tiedoston, mihin kirjoitetaan, nimi
+     */
     public Tiedostonkasittelija(Datankeraaja data, String nimi) {
         this.data = data;
         this.tiedoston_nimi = nimi;

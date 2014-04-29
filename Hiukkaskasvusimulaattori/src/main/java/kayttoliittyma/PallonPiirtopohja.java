@@ -17,6 +17,13 @@ public class PallonPiirtopohja extends JPanel {
     private int leveys;
     private int korkeus;
     
+    /**
+     * PallonPiirtopohja-luokan konstruktori
+     * @param pohjavari Piirtopohjan väri
+     * @param pallo Pallo(ympyrä), mikä piirretään 
+     * @param leveys Piirtopohjan leveys
+     * @param korkeus Piirtopohjan korkeus
+     */
     public PallonPiirtopohja(Color pohjavari, Pallo pallo, int leveys, int korkeus) {
         super.setBackground(pohjavari);
         this.pallo = pallo;

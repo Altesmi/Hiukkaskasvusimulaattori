@@ -20,6 +20,14 @@ public class Molekyyli {
     private double lampotila; // Yksikkö: K
     private double diffuusiotilavuus; // Yksikkö: arbitary units
     
+    /**
+     * Konstruktori Molekyyli-luokalle
+     * @param nimi Molekyylin nimi
+     * @param moolimassa Molekyylin moolimassa (yksikkö: kg/mol)
+     * @param tiheys Molekyylin tiheys (yksikkö: kg/m^3)
+     * @param lampotila Molekyylin lämpötila (yksikkö: K)
+     * @param diffuusiotilavuus Molekyylin diffuusiotilavuus (yksikötön)
+     */
     public Molekyyli (String nimi, double moolimassa, double tiheys,
             double lampotila, double diffuusiotilavuus) {
         

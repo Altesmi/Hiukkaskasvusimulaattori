@@ -1,4 +1,4 @@
-
+                                                                          
 package kayttoliittyma;
 
 import kayttoliittyma.nappulankuuntelijat.PaivitysNapinKuuntelija;
@@ -7,7 +7,7 @@ import kayttoliittyma.nappulankuuntelijat.KaasunLuomisenKuuntelija;
 import kayttoliittyma.nappulankuuntelijat.SimulaatioAjonKuuntelija;
 import kayttoliittyma.nappulankuuntelijat.TallennaDataKuuntelija;
 import java.awt.Container;
-import java.awt.Dimension;
+import java.awt.Dimension;                                 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
@@ -32,6 +32,13 @@ public class Kayttoliittyma implements Runnable {
     private int frame_leveys;
     private int frame_pituus;
     
+    /**
+     * Konsturktori Kayttoliittyma-luokalle
+     * @param simulaatio Nykyinen simulaatio
+     * @param pallo Hiukkasen piirtävä Pallo-olio
+     * @param frame_leveys Koko käyttöliittymäikkunan leveys
+     * @param frame_pituus Koko käyttöliittymäikkunan pituus
+     */
     public Kayttoliittyma(Simulaatio simulaatio, Pallo pallo, int frame_leveys, int frame_pituus) {
         this.simulaatio = simulaatio;
         this.pallo = pallo;
@@ -59,16 +66,16 @@ public class Kayttoliittyma implements Runnable {
      * @param sailio Container ikkunalle, johon piirretään.
      */
     private void luoKomponentit(Container sailio) {
+        
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         PallonPiirtopohja hiukkasenPohja = new PallonPiirtopohja(Color.WHITE, this.pallo,500,300);
         Kuvaaja kuvaaja = new Kuvaaja(Color.WHITE,this.simulaatio.getData(),500,300); 
         KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija(this.simulaatio);
         HiukkasenLuomisenKuuntelija hiukkaskuuntelija = new HiukkasenLuomisenKuuntelija(this.simulaatio);
-        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio, kuvaaja);
         TallennaDataKuuntelija tallennuskuuntelija = new TallennaDataKuuntelija(this.simulaatio, frame);
         sailio.setLayout(layout);
-    //JTextArea textAreaOikea = new JTextArea(simulaatio.tulostaHiukkasenSade());
+ 
         JButton luoKaasu = new JButton("Luo kaasu");
         luoKaasu.addActionListener(kaasuKuuntelija);
         
@@ -76,11 +83,17 @@ public class Kayttoliittyma implements Runnable {
         luoHiukkanen.addActionListener(hiukkaskuuntelija);
         
         JButton ajaSimulaatio = new JButton("Aja simulaatio");
-        ajaSimulaatio.addActionListener(simulaatiokuuntelija);
         
         JButton tallennaData = new JButton("Tallenna data");
         tallennaData.addActionListener(tallennuskuuntelija);
         
+        JButton tekstinPaivitysNappula = new JButton("Päivitä");
+        
+        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio, kuvaaja, 
+        luoHiukkanen, luoKaasu, ajaSimulaatio, tallennaData, tekstinPaivitysNappula);
+        
+
+        ajaSimulaatio.addActionListener(simulaatiokuuntelija);
         JPanel nappulaPaneeli = new JPanel(new GridBagLayout());
         
         JPanel infoPaneeli = new JPanel(new GridBagLayout());
@@ -107,7 +120,7 @@ public class Kayttoliittyma implements Runnable {
         JTextArea hiukkasenTekstiAlue = new JTextArea(hiukkasenTeksti,100,100);
         JTextArea kaasunTekstiAlue  = new JTextArea(kaasuTeksti,100,100);
         JTextArea ilmakehanTekstiAlue = new JTextArea(ilmakehaTeksti,100,100);
-        JButton tekstinPaivitysNappula = new JButton("Päivitä");
+
         PaivitysNapinKuuntelija paivitysKuuntelija = new PaivitysNapinKuuntelija(hiukkasenTekstiAlue, kaasunTekstiAlue, 
                                                                                 ilmakehanTekstiAlue, this.simulaatio);
         

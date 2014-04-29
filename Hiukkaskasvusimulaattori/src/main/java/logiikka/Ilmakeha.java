@@ -34,10 +34,8 @@ public class Ilmakeha {
      * @param hitu Aerosolihiukkanen
      * @param hoyry Tiivistyvä höyry
      * @param paine ilmakehän vallitseva paine (yksikkö: atm)
-     * @param lämpötila ilmakehän lämpötila (yksikkö: K)
+     * @param lampotila ilmakehän lämpötila (yksikkö: K)
      * @param aika ilmakehän luomisen aloitusajankohta (yksikkö: s)
-     * 
-     * @return Ilmakehä olio.
      */
     public Ilmakeha(Hiukkanen hitu, Kaasu hoyry, double paine, double lampotila, double aika) {
         this.hitu = hitu;

@@ -25,6 +25,13 @@ public class Kuvaaja extends JPanel{
     private static final int Y_VALI = 60;
     private static final int X_VALI = 20;
     
+    /**
+     * Kuvaaja-luokan konstruktori
+     * @param pohjavari kuvaaja-ruudun pohjaväri
+     * @param data simulaatiosta kerätty data
+     * @param leveys kuvaaja-ruudun leveys
+     * @param korkeus kuvaaja-ruudun korkeus
+     */
     public Kuvaaja(Color pohjavari,Datankeraaja data,int leveys,int korkeus) {
         super.setBackground(pohjavari);
         this.data = data;

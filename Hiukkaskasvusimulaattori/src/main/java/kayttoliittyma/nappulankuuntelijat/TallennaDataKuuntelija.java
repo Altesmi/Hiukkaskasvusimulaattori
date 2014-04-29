@@ -33,13 +33,19 @@ public class TallennaDataKuuntelija implements ActionListener{
     }
 
     /**
-     * Tämä metodi ajetaan, kun "Tallenna data" -nappulaa painetaan-
-     * 
+     * Tämä metodi ajetaan, kun "Tallenna data" -nappulaa painetaan.
+     * Ohjelma kysyy tallennettavan tiedoston nimen (lisää .dat päätteen)
+     * ja kirjoittaa simulaatiolta saatavan datankerääjä-olion tiedot
+     * tällä nimellä varustettuun tiedostoon.
+     * Kaikki data myös nollataan tallennuksen jälkeen.
      * @param ae ActionEvent 
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-       
+       if(this.simulaatio.getData().pituus() == 0) {
+           JOptionPane.showMessageDialog(null, "Dataa ei ole!", "Dataa ei ole!", JOptionPane.ERROR_MESSAGE);
+           return;
+       }
        JOptionPane tiedoston_nimi_kysely = new JOptionPane();
        JTextField tiedostonnimi = new JTextField();
        
@@ -47,7 +53,7 @@ public class TallennaDataKuuntelija implements ActionListener{
             "Tallennettavan tiedoston nimi *.dat", tiedostonnimi,
              "Tallennus nollaa kaiken datan!"};
         
-        int kyselynarvo = tiedoston_nimi_kysely.showConfirmDialog(null,kysymykset,"Simulaation arvot", JOptionPane.OK_CANCEL_OPTION);
+        int kyselynarvo = tiedoston_nimi_kysely.showConfirmDialog(null,kysymykset,"Tallenna data", JOptionPane.OK_CANCEL_OPTION);
        
         if(kyselynarvo == JOptionPane.OK_OPTION)   {
             Tiedostonkasittelija kirjoitin = new Tiedostonkasittelija(this.simulaatio.getData(), tiedostonnimi.getText().trim() + ".dat");
@@ -55,7 +61,7 @@ public class TallennaDataKuuntelija implements ActionListener{
                 kirjoitin.kirjoitaTiedostoon();
                 this.simulaatio.getData().nollaaKaikki();
                 JOptionPane.showMessageDialog(this.frame,"Tiedoston tallennus onnistui!",
-                                                "Virhe",JOptionPane.PLAIN_MESSAGE);
+                                                "Onnistui!",JOptionPane.YES_OPTION);
 
             }
             catch(Exception ex) {

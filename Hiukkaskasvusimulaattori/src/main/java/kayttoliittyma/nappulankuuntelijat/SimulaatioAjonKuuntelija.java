@@ -1,12 +1,13 @@
 
 package kayttoliittyma.nappulankuuntelijat;
 
-
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JButton;
 import kayttoliittyma.PallonPiirtopohja;
 import kayttoliittyma.Simulaatio;
 import kayttoliittyma.Kuvaaja;
@@ -23,7 +24,12 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
     private PallonPiirtopohja pallonpohja;
     private JFrame frame;
     private Simulaatio simulaatio;
-    private Kuvaaja kuvaaja; 
+    private Kuvaaja kuvaaja;
+    private JButton hiukkasnappi; 
+    private JButton kaasunappi;
+    private JButton simulaationappi; 
+    private JButton tallennanappi;
+    private JButton paivitanappi;
     
     /**
      * Konstruktori SimulaatioAjonKuuntelijalle
@@ -33,11 +39,19 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
      * @param kuvaaja Kuvaajan piirtämisen mahdollistava luokka
      */
     public SimulaatioAjonKuuntelija(PallonPiirtopohja pallonpohja, 
-            JFrame frame, Simulaatio simulaatio, Kuvaaja kuvaaja) {
+            JFrame frame, Simulaatio simulaatio, Kuvaaja kuvaaja, JButton hiukkasnappi,
+             JButton kaasunappi, JButton simulaationappi, JButton tallennanappi,
+             JButton paivitanappi) {
         this.pallonpohja = pallonpohja;
         this.frame = frame;
         this.simulaatio = simulaatio;
         this.kuvaaja = kuvaaja;
+        this.hiukkasnappi = hiukkasnappi;
+        this.kaasunappi = kaasunappi;
+        this.simulaationappi = simulaationappi;
+        this.tallennanappi = tallennanappi;
+        this.paivitanappi = paivitanappi;
+                
     }
     
     
@@ -57,6 +71,7 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
         JTextField lopetusaikaTeksti = new JTextField();
         JTextField lampotilaTeksti = new JTextField();
         JTextField paineTeksti = new JTextField();
+        DecimalFormat d = new DecimalFormat("###.#");
         
         double lopetus_sade;
         double lopetus_aika;
@@ -102,7 +117,7 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
                     
                 JOptionPane.showMessageDialog(this.frame,"Simulaation arvot annettu väärin.\n Simulaatiota ei käynnistetä\n"
                         + "Arvot oltava väliltä:\n"
-                        + "Lopetussäde: " + this.simulaatio.MINIMI_HIUKKASEN_SADE + " - " + this.simulaatio.MAKSIMI_HIUKKASEN_SADE + " nm (lisäksi oltava suurempi kuin hiukkanen nyt) \n"
+                        + "Lopetussäde: " + d.format(this.simulaatio.MINIMI_HIUKKASEN_SADE*1e9) + " - " + d.format(this.simulaatio.MAKSIMI_HIUKKASEN_SADE*1e9) + " nm (lisäksi oltava suurempi kuin hiukkanen nyt) \n"
                         + "Lopetusaika: " + (this.simulaatio.MINIMI_AIKA/3600.0) + " - " + (this.simulaatio.MAKSIMI_AIKA/3600.0) + " h\n"
                         + "Lämpötila: " + this.simulaatio.MINIMI_LAMPOTILA + " - " + this.simulaatio.MAKSIMI_LAMPOTILA + " K\n"
                         + "Paine: " + this.simulaatio.MINIMI_PAINE + " - " + this.simulaatio.MAKSIMI_PAINE + " atm",
@@ -112,8 +127,19 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
                     
                     
             }
+                this.hiukkasnappi.setEnabled(false);
+                this.kaasunappi.setEnabled(false);
+                this.simulaationappi.setEnabled(false);
+                this.tallennanappi.setEnabled(false);
+                this.paivitanappi.setEnabled(false);
+                
                 this.simulaatio.ajaSimulaatio(lopetus_sade, lopetus_aika, paine, lampotila, this.pallonpohja, this.kuvaaja);
                 
+                this.hiukkasnappi.setEnabled(true);
+                this.kaasunappi.setEnabled(true);
+                this.simulaationappi.setEnabled(true);
+                this.tallennanappi.setEnabled(true);
+                this.paivitanappi.setEnabled(true);
  
             }
             catch(Exception ex) {

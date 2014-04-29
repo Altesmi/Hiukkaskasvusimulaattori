@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
  *
  * main-metodin sisältävä luokka. Tämä luokka ajetaan, jotta koko paketti
  * käynnistyy.
+ * 
  * @author Olli-Pekka Tikkanen
  */
 public class Main {

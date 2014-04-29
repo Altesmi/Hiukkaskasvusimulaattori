@@ -22,7 +22,13 @@ public class Hiukkanen {
     private double lampotila; // yksikkö: K
  
   
-    
+    /**
+     * Hiukkanen-luokan konstruktori
+     * @param nimi Hiukkasen nimi
+     * @param sade Hiukkasen säde (yksikkö: m)
+     * @param tiheys Hiukkasen tiheys (yksikkö: kg/m^3)
+     * @param lampotila Hiukkasen lämpötila (yksikkö: K)
+     */
     public Hiukkanen(String nimi, double sade, double tiheys, double lampotila) {
         
         this.nimi = nimi;
