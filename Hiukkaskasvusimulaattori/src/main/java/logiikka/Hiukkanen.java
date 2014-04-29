@@ -4,10 +4,9 @@ import java.lang.Math.*;
 
 
 /**
- *  Aerosolihiukkasen luokka toteuttava luokka.
+ *  Aerosolihiukkasen toteuttava luokka.
  *  Oletus: aerosolihiukkanen jatkuvasti termodynaamisessa tasapainossa
  *  ympäristön kanssa.
- *  aliluokka.
  *
  * @author Olli-Pekka Tikkanen
  */
@@ -68,7 +67,6 @@ public class Hiukkanen {
     /**
      * Metodi laskee hiukkasen massan hiukkasen säteestä ja tiheydestä
      * Oletus: pallomainen hiukkanen
-     * Yksikkö: kg
      * 
      * @return Hiukkasen massa (yksikkö: kg)
      */

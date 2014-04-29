@@ -126,6 +126,13 @@ public class Ilmakeha {
         this.aika += uusi_aika;
     }
     
+    /**
+     * Laskee hiukkasen vapaan matkan.
+     * Vapaa matka, on matka jonka hiukkanen kulkee ennen kuin sen suunta
+     * on muuttunut 90 astetta
+     * 
+     * @return hiukkasen vapaa matka (yksikkö: m)
+     */
     private double hiukkasenVapaaMatka() {
        
         return (3.0*(this.hitu.diffuusiokerroin(this.ILMAN_VAPAA_MATKA,
@@ -137,12 +144,26 @@ public class Ilmakeha {
         
     } 
 
+    /**
+     * Knudsenin luku kuvaa hiukkasen vapaan matkan ja väliainemolekyylin
+     * säteen suhdetta.
+     * 
+     * @return Knudsenin luku (yksikötön) 
+     */
     private double knudseninLuku() {
         
         return 2.0*this.hiukkasenVapaaMatka()/(this.hitu.getSade() + this.hoyry.sade());
         
     }
 
+    /**
+     * Massavuon korjauskerroin korjaa jatkumoalueella tapahtuvan 
+     * kondensaation vuon vastaamaan fysikaalista tilannatte.
+     * 
+     * jatkumoalueella Knudsenin luku "ei ole suuri eikä pieni"
+     * 
+     * @return massavuon korjauskerroin (yksikötön) 
+     */
     private double massavuonKorjauskerroin() {
         
         return (1+this.knudseninLuku())/

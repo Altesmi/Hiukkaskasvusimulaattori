@@ -7,7 +7,7 @@ import java.awt.Color;
 
 
 /**
- * Piirtoalusta hiukkasen ja kuvaajien piirtämiselle
+ * Piirtoalusta hiukkasen (ympyrän) piirtämiselle
  * 
  * @author Olli-Pekka Tikkanen
  */

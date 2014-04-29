@@ -2,7 +2,7 @@
 package kayttoliittyma.nappulankuuntelijat;
 
 
-import logiikka.Ilmakeha;
+import kayttoliittyma.Simulaatio;
 import logiikka.Kaasu;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * Luokka kuuntelee "lisää kaasu"-nappulaa ja tallentaa käyttäjän
- * antamat tiedot simulaation kaasuksi
+ * antamat tiedot simulaation kaasuksi.
  * @author Olli-Pekka Tikkanen
  */
 public class KaasunLisaysKuuntelija implements ActionListener{
@@ -25,41 +25,64 @@ public class KaasunLisaysKuuntelija implements ActionListener{
     private JTextField tiheys;
     private JTextField diffuusio_tilavuus;
     private JTextField pitoisuus;
-    private Ilmakeha ilmakeha;
+    private Simulaatio simulaatio;
     private JFrame frame;
     
+    /**
+     * Konstruktori KaasunLisaysKuuntelijalle
+     * @param nimi Kaasun nimi
+     * @param moolimassa Kaasun moolimassa
+     * @param tiheys Kaasun tiheys
+     * @param diffuusiotilavuus Kaasun diffuusiotilavuus
+     * @param pitoisuus Kaasun pitoisuus
+     * @param simulaatio Nykyinen simulaatio
+     * @param frame Frame, missä kuunnelta nappula on
+     */
     public KaasunLisaysKuuntelija(JTextField nimi,JTextField moolimassa, JTextField tiheys, 
-             JTextField diffuusio_tilavuus, JTextField pitoisuus, Ilmakeha ilmakeha, JFrame frame) {
+             JTextField diffuusiotilavuus, JTextField pitoisuus, Simulaatio simulaatio, JFrame frame) {
         this.moolimassa = moolimassa;
         this.nimi = nimi;
         this.tiheys = tiheys;
-        this.diffuusio_tilavuus = diffuusio_tilavuus;
+        this.diffuusio_tilavuus = diffuusiotilavuus;
         this.pitoisuus = pitoisuus;
-        this.ilmakeha = ilmakeha;
+        this.simulaatio = simulaatio;
         this.frame = frame;
     }
     
+    /**
+     * "Lisää kaasu" -nappulan painamisen jälkeen tämä metodi toteutetaan
+     * Tallentaa annetut tiedot simulaation (ilmakehän) nykyiseksi kaasuksi
+     * ja tarkistaa, että simulaatiossa asetettuja maksimi- ja minimiarvoja 
+     * ei ylitetä.
+     * @param e ActionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         
         //Yritä luoda kaasu ja asettaa se ilmakehan kaasuksi
         try {
-            Kaasu edellinen_kaasu = this.ilmakeha.getKaasu();
+            Kaasu edellinen_kaasu = this.simulaatio.getIlmakeha().getKaasu();
             Kaasu kaasu = new Kaasu(this.nimi.getText(), Double.parseDouble(this.moolimassa.getText()), 
                                 Double.parseDouble(this.tiheys.getText()), 0.0,        
                                 Double.parseDouble(this.diffuusio_tilavuus.getText()), Double.parseDouble(this.pitoisuus.getText())*1e6);
             
-            this.ilmakeha.setKaasu(kaasu);
-            //Tarkistetaan onko jokin arvoista annettu ei-positiivisena
-            if(kaasu.getMoolimassa()<=0.0  || kaasu.getMoolimassa() > 100.0|| kaasu.getDiffuusiotilavuus()<=0.0 || 
-                 kaasu.getDiffuusiotilavuus()>1000.0 ||kaasu.getPitoisuus()<=0.0  || kaasu.getPitoisuus()> 1e12 
-                    || kaasu.getTiheys()<=0.0 || kaasu.getTiheys()>10000.0) {
-                JOptionPane.showMessageDialog(this.frame,"Kaasun ominaisuuksien on oltava seuraavat:\n"
-                        + "Moolimassa: >0.0-100 kg/mol\n"
-                        + "Diffuusiotilavuus: >0.0-1000\n"
-                        + "Pitoisuus: >0.0-1e12 #/cm^3\n"
-                        + "Tiheys: >0.0-10000 kg/m^3","Virhe", JOptionPane.ERROR_MESSAGE);
-                this.ilmakeha.setKaasu(edellinen_kaasu);
+            this.simulaatio.getIlmakeha().setKaasu(kaasu);
+
+            if(kaasu.getMoolimassa()<=this.simulaatio.MINIMI_MOOLIMASSA
+                    || kaasu.getMoolimassa() > this.simulaatio.MAKSIMI_MOOLIMASSA
+                    || kaasu.getDiffuusiotilavuus()<this.simulaatio.MINIMI_DIFFUUSIO_TILAVUUS 
+                    || kaasu.getDiffuusiotilavuus()>this.simulaatio.MAKSIMI_DIFFUUSIO_TILAVUUS
+                    || kaasu.getPitoisuus()< this.simulaatio.MINIMI_PITOISUUS  
+                    || kaasu.getPitoisuus()> this.simulaatio.MAKSIMI_PITOISUUS 
+                    || kaasu.getTiheys()< this.simulaatio.MINIMI_TIHEYS 
+                    || kaasu.getTiheys()> this.simulaatio.MAKSIMI_TIHEYS) {
+                JOptionPane.showMessageDialog(this.frame,"Kaasun ominaisuuksien on oltava:\n"
+                        + "Moolimassa: " + this.simulaatio.MINIMI_MOOLIMASSA + " - " + this.simulaatio.MAKSIMI_MOOLIMASSA + "kg/mol \n"
+                        + "Diffuusiotilavuus: " + this.simulaatio.MINIMI_DIFFUUSIO_TILAVUUS + " - " + this.simulaatio.MAKSIMI_DIFFUUSIO_TILAVUUS + "\n"
+                        + "Pitoisuus: " + this.simulaatio.MINIMI_PITOISUUS + " - " + this.simulaatio.MAKSIMI_PITOISUUS + " #/cm^3 \n"
+                        + "Tiheys: " + this.simulaatio.MINIMI_TIHEYS + " - " + this.simulaatio.MAKSIMI_TIHEYS + " kg/m^3",
+                        "Virhe", JOptionPane.ERROR_MESSAGE);
+                this.simulaatio.getIlmakeha().setKaasu(edellinen_kaasu);
                 return;
             }
             
@@ -71,15 +94,7 @@ public class KaasunLisaysKuuntelija implements ActionListener{
             
         }
         catch(Exception ex) {
-            // anna ponnahdusikkuna jos luominen ei onnistu
-            //JFrame ei_onnistunut = new JFrame("Kaasun luonti ei onnistunut");
-            
             JOptionPane.showMessageDialog(this.frame,"Kaasun luonti ei onnistunut","Virhe", JOptionPane.ERROR_MESSAGE);
-            //ei_onnistunut.setPreferredSize(new Dimension(400,50));
-            //ei_onnistunut.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            //ei_onnistunut.pack();
-            //ei_onnistunut.setVisible(true);
-            
         }
                 
         

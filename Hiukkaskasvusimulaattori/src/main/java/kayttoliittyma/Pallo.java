@@ -8,8 +8,7 @@ import java.awt.Color;
 
 
 /**
- * Luokka piirtää pallon käyttäen javan Sphere-luokkaa
- * ja Material luokkia hyväksi
+ * Luokka piirtää ympyrän, jolla kuvataan pallomaista aerosolihiukkasta
  * 
  * @author Olli-Pekka Tikkanen
  */
@@ -28,7 +27,12 @@ public class Pallo {
     public void setSade(double sade) {
         this.sade = sade;
     }
-    
+    /**
+     * Piirtää pallon aina ikkunan keskelle
+     * @param graphics Graphics-olio, joka tarjoaa piirtoominaisuudet
+     * @param pohjan_leveys piirtoalustan leveys
+     * @param pohjan_pituus piirtoalustan pituus
+     */
     public void piirra (Graphics graphics, int pohjan_leveys, int pohjan_pituus) {
         
         double keskipiste_x = pohjan_leveys/2.0 - this.sade/2.0;

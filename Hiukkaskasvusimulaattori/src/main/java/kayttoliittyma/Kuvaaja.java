@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
  * datasta. 
  * @author Olli-Pekka Tikkanen
  */
-public class KuvaajanPiirtopohja extends JPanel{
+public class Kuvaaja extends JPanel{
     
     private Datankeraaja data;
     private int leveys;
@@ -25,7 +25,7 @@ public class KuvaajanPiirtopohja extends JPanel{
     private static final int Y_VALI = 60;
     private static final int X_VALI = 20;
     
-    public KuvaajanPiirtopohja (Color pohjavari,Datankeraaja data,int leveys,int korkeus) {
+    public Kuvaaja(Color pohjavari,Datankeraaja data,int leveys,int korkeus) {
         super.setBackground(pohjavari);
         this.data = data;
         this.leveys = leveys;
@@ -48,7 +48,15 @@ public class KuvaajanPiirtopohja extends JPanel{
         this.korkeus = korkeus;
     }
 
-    
+    /**
+     * Piirtää kuvaajan akselit, akselien merkit, merkkien suuruutta
+     * vastaavat numerot ja akselien nimiä vastaavat tekstit
+     * @param maxX X-akselin maksimiarvo
+     * @param maxY Y-akselin maksimiarvo
+     * @param xTeksti X-akselilla näkyvä teksti
+     * @param yTeksti Y-akselilla näkyvä teksti
+     * @param g Graphics-olio, joka tarjoaa piirto-ominaisuudet
+     */
     private void piirraAkselit(double maxX, double maxY, 
                                 String xTeksti, String yTeksti, Graphics g) {
         
@@ -60,7 +68,7 @@ public class KuvaajanPiirtopohja extends JPanel{
         //Akselien tekstit
         g2.drawString(xTeksti, this.leveys/2,this.korkeus);
         g2.rotate(-1.0*Math.PI/2.0);
-        g2.drawString(yTeksti,-2*this.korkeus/3,X_VALI);
+        g2.drawString(yTeksti,-2*this.korkeus/3,10);
         g2.rotate(Math.PI/2.0);
         //X-merkit (logartiminen asteikko)
         int merkkien_maara = 5;
@@ -94,13 +102,20 @@ public class KuvaajanPiirtopohja extends JPanel{
                     g2.drawString(merkkiX.getIterator(),(this.leveys-Y_VALI)/merkkien_maara*(i+1)+Y_VALI/2, this.korkeus);
                     
                     String merkkiY = d.format(maxY*1e9/merkkien_maara*(merkkien_maara-i));
-                    g2.drawString(merkkiY,Y_VALI/2, (this.korkeus-X_VALI)/merkkien_maara*(i)+X_VALI/2);
+                    g2.drawString(merkkiY,Y_VALI/3, (this.korkeus-X_VALI)/merkkien_maara*(i)+X_VALI/2);
                 }
             }
         
         
     }
     
+    /**
+     * Piirtää Datankerääjän datan kuvaajaan
+     * 
+     * @param maxX X-akselin maksimiarvo
+     * @param maxY Y-akselin maksimiarvo
+     * @param g Graphics-olio, joka tarjoaa piirto-ominaisuudet
+     */
     private void piirraData(double maxX,double maxY,Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         int x;
@@ -115,7 +130,11 @@ public class KuvaajanPiirtopohja extends JPanel{
         
         
     }
-    
+    /**
+     * Piirtää pelkstään akselit, jos dataa ei ole, 
+     * ja piirtää myös datan, jos sitä on
+     * @param grafiikka Graphics-olio, joka tarjoaa piirto-ominaisuudet
+     */
     @Override
     protected void paintComponent(Graphics grafiikka) {
         super.paintComponent(grafiikka);

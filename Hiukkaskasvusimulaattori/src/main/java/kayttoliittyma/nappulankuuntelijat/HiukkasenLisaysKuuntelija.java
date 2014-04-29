@@ -2,12 +2,15 @@
 package kayttoliittyma.nappulankuuntelijat;
 
 /**
- *
- * @author optikkanen
+ * Luokka on kuuntelija "Lisää hiukkanen" -nappulalle käyttöliittymän
+ * "Luo hiukkanen"-nappulan avaamassa kyselydialogissa.
+ * Nappulan painamisen jälkeen, avataan dialogi-ikkuna, johon hiukkasen
+ * tiedot voidaan syöttää.
+ * @author Olli-Pekka Tikkanen
  */
 
-import logiikka.Ilmakeha;
 import logiikka.Hiukkanen;
+import kayttoliittyma.Simulaatio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
@@ -19,34 +22,51 @@ public class HiukkasenLisaysKuuntelija implements ActionListener{
     private JTextField nimi;
     private JTextField sade;
     private JTextField tiheys;
-    private Ilmakeha ilmakeha;
+    private Simulaatio simulaatio;
     private JFrame frame;
     
+    /**
+     * Konstruktori HiukkasenLisäysKuuntelijalle
+     * @param nimi Hiukkasen nimi
+     * @param sade Hiukkasen säde
+     * @param tiheys Hiukkasen tiheys
+     * @param ilmakeha Ilmakehä- olio johon hiukkanen luodaan
+     * @param frame  Frame, jonka päälle uusi kysely-dialogi avataan
+     */
     public HiukkasenLisaysKuuntelija(JTextField nimi,JTextField sade, JTextField tiheys, 
-             Ilmakeha ilmakeha, JFrame frame) {
+             Simulaatio simulaatio, JFrame frame) {
         this.nimi = nimi;
         this.sade = sade;
         this.tiheys = tiheys;
-        this.ilmakeha = ilmakeha;
+        this.simulaatio = simulaatio;
         this.frame = frame;
     }
     
+    /**
+     * Kysyy hiukkasen tiedot (nimi, säde tiheys) ja tallentaa ne 
+     * Ilmakehä-olion avulla ko ilmakehän aerosolihiukkaseksi.
+     * "Lisää hiukkanen" -nappulaa painettaessa tarkastetaan, että Simulaatio-luokassa
+     * määritellyt maksmimiarvot eivät ylity.
+     * @param e ActionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         
         try {
-            Hiukkanen edellinen_hiukkanen = ilmakeha.getHiukkanen();
+            Hiukkanen edellinen_hiukkanen = this.simulaatio.getIlmakeha().getHiukkanen();
             Hiukkanen hiukkanen = new Hiukkanen(this.nimi.getText(), Double.parseDouble(this.sade.getText())*1e-9, 
                                 Double.parseDouble(this.tiheys.getText()), 0.0);
         
-            this.ilmakeha.setHiukkanen(hiukkanen);
-            //Tarkistus negatiivisten ja nollan varalta
-            //Lisäksi sallitaan vain hiukkasen säde väliltä 0-500nm
-            if(hiukkanen.getSade()<0.1e-9 || hiukkanen.getSade()>500.0e-9 || hiukkanen.getTiheys()<=0.0
-                    || hiukkanen.getTiheys()>=10000.0) {
-                JOptionPane.showMessageDialog(this.frame,"Hiukkasen ominaisuuksien on oltava positiivisia! \nLisäksi säteen on oltava väliltä 0.1-500 nm \n"
-                        +"ja tiheyden väliltä 0-10000 kg/m^3","Virhe", JOptionPane.ERROR_MESSAGE);
-                this.ilmakeha.setHiukkanen(edellinen_hiukkanen);
+            this.simulaatio.getIlmakeha().setHiukkanen(hiukkanen);
+            if(hiukkanen.getSade()< this.simulaatio.MINIMI_HIUKKASEN_SADE 
+                    || hiukkanen.getSade()>this.simulaatio.MAKSIMI_HIUKKASEN_SADE 
+                    || hiukkanen.getTiheys()< this.simulaatio.MINIMI_TIHEYS
+                    || hiukkanen.getTiheys()>=this.simulaatio.MAKSIMI_TIHEYS) {
+                JOptionPane.showMessageDialog(this.frame,"Hiukkasen ominaisuuksien mahdolliset arvot: \n"
+                        + "Säde: " + this.simulaatio.MINIMI_HIUKKASEN_SADE + " - " + this.simulaatio.MAKSIMI_HIUKKASEN_SADE + " nm\n"
+                        + "Tiheys: " + this.simulaatio.MINIMI_TIHEYS + " - " + this.simulaatio.MAKSIMI_TIHEYS + " kg/m^3","Virhe", JOptionPane.ERROR_MESSAGE);
+                
+                this.simulaatio.getIlmakeha().setHiukkanen(edellinen_hiukkanen);
                 return;
             
             }

@@ -7,6 +7,9 @@ import logiikka.Ilmakeha;
 import logiikka.Kaasu;
 /**
  * Tekstikäyttöliittymä hiukkaskasvusimulaattorille
+ * Tekstikäyttöliittymässä aika-askelta voidaan vaihtaa
+ * ja hiukkasta kasvattaa, mutta muita arvoja ei voi vaihtaa
+ * esiasetetuista
  * @author Olli-Pekka Tikkanen
  */
 public class Tekstikayttoliittyma {

@@ -4,7 +4,7 @@ package datankasittelijat;
 import java.io.FileWriter;
 
 /**
- * Tallentaa annetun datankeraaja-olion tekstitiedostoksi
+ * Tallentaa annetun datankeraaja-olion tekstitiedostoksi.
  * 
  * @author Olli-Pekka Tikkanen
  */
@@ -25,7 +25,11 @@ public class Tiedostonkasittelija {
     public void setNimi(String nimi) {
         this.tiedoston_nimi = nimi;
     }
-    
+    /**
+     * Kirjoittaa datankeraaja-olion tiedot tekstitiedostoon, jonka
+     * nimi on myös annettu konstruktorissa.
+     * @throws Exception virhe, jos tallenus ei onnistu
+     */
     public void kirjoitaTiedostoon() throws Exception {
         
         FileWriter kirjoitin = new FileWriter(this.tiedoston_nimi);

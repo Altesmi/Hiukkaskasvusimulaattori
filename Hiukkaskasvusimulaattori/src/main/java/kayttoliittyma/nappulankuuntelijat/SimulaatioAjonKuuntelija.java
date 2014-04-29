@@ -4,22 +4,17 @@ package kayttoliittyma.nappulankuuntelijat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
-import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
-import java.awt.Event;
-import kayttoliittyma.Pallo;
 import kayttoliittyma.PallonPiirtopohja;
 import kayttoliittyma.Simulaatio;
-import kayttoliittyma.KuvaajanPiirtopohja;
+import kayttoliittyma.Kuvaaja;
 
 
 /**
  * Kuuntelee onko "Aja simulaatio" -nappulaa painettu ja 
- * painettaessa ajaa simulaation (kasvattaa hiukkasta)
+ * painettaessa ajaa simulaation.
  * 
  * @author Olli-Pekka Tikkanen
  */
@@ -28,17 +23,32 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
     private PallonPiirtopohja pallonpohja;
     private JFrame frame;
     private Simulaatio simulaatio;
-    private KuvaajanPiirtopohja kuvaaja;
+    private Kuvaaja kuvaaja; 
     
-    
+    /**
+     * Konstruktori SimulaatioAjonKuuntelijalle
+     * @param pallonpohja Hiukkasen piirtopohja 
+     * @param frame Frame, jossa nappula on
+     * @param simulaatio Nykyinen simulaatio
+     * @param kuvaaja Kuvaajan piirtämisen mahdollistava luokka
+     */
     public SimulaatioAjonKuuntelija(PallonPiirtopohja pallonpohja, 
-            JFrame frame, Simulaatio simulaatio, KuvaajanPiirtopohja kuvaaja) {
+            JFrame frame, Simulaatio simulaatio, Kuvaaja kuvaaja) {
         this.pallonpohja = pallonpohja;
         this.frame = frame;
         this.simulaatio = simulaatio;
         this.kuvaaja = kuvaaja;
     }
     
+    
+    /**
+     * Kun "Aja simulaatio" -nappulaa painetaan tämä metodi ajetaan.
+     * Metodi kysyy ensin, tuhotaanko vanha data (jos sitä on olemassa), 
+     * minkä jälkeen metodi kysyy simulaatioajon parametrit (lämpötila,paine
+     * lopetusehdot) ja tarkistaa, että ne ovat Simulaatio-luokan sallimissa rajoissa. 
+     * Tämän jälkeen se kutsuu Simulaatio-luokan ajaSimulaatio()-metodia.
+     * @param ae ActionEvent 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         //Kysy simulaation lopetusehdot
@@ -60,7 +70,17 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
             "Lopetusaika [h]", lopetusaikaTeksti
             
         };
-        
+         //Nollaa aikaisemman simulaatio tiedot
+        if(this.simulaatio.getData().pituus() > 0) {
+            int jatko = JOptionPane.showConfirmDialog(this.frame,"Edellisen simulaation tiedot poistetaan.\n Jatketaanko?",
+                                                "Edelliset tiedot nollataan",JOptionPane.OK_CANCEL_OPTION);
+            if(jatko == JOptionPane.OK_OPTION) {
+                this.simulaatio.getData().nollaaKaikki();
+             }
+             else {
+                return;
+             }
+        }
         int kyselynarvo = lopetus_ehdot.showConfirmDialog(null,kysymykset,"Simulaation arvot", JOptionPane.OK_CANCEL_OPTION);
         
         if(kyselynarvo == JOptionPane.OK_OPTION) {
@@ -69,23 +89,30 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
                 lopetus_aika = Double.parseDouble(lopetusaikaTeksti.getText())*3600.0;
                 lampotila = Double.parseDouble(lampotilaTeksti.getText());
                 paine = Double.parseDouble(paineTeksti.getText());
-                               //Tarkistukset väärien numeroarvojen varalta
+                //Tarkistukset väärien numeroarvojen varalta
                 if(lopetus_sade<=this.simulaatio.getIlmakeha().getHiukkanen().getSade() 
-                        || lopetus_sade > 500*1e-9 || lopetus_aika<=0.0 || lopetus_aika/3600.0>24.0  || lampotila<=0.0 || lampotila>350
-                        || paine <= 0.0 || paine > 10.0) {
+                        || lopetus_sade < this.simulaatio.MINIMI_HIUKKASEN_SADE
+                        || lopetus_sade > this.simulaatio.MAKSIMI_HIUKKASEN_SADE 
+                        || lopetus_aika < this.simulaatio.MINIMI_AIKA 
+                        || lopetus_aika > this.simulaatio.MAKSIMI_AIKA  
+                        || lampotila < this.simulaatio.MINIMI_LAMPOTILA
+                        || lampotila > this.simulaatio.MAKSIMI_LAMPOTILA
+                        || paine < this.simulaatio.MINIMI_PAINE 
+                        || paine > this.simulaatio.MAKSIMI_PAINE) {
+                    
                 JOptionPane.showMessageDialog(this.frame,"Simulaation arvot annettu väärin.\n Simulaatiota ei käynnistetä\n"
                         + "Arvot oltava väliltä:\n"
-                        + "Lopetussäde: suurempi kuin hiukkasen säde - 500 nm\n"
-                        + "Lopetusaika: suurempi kuin 0.0 - 24.0 h\n"
-                        + "Lämpötila: 0-350 K\n"
-                        + "Paine: 0.0 - 10.0 atm",
+                        + "Lopetussäde: " + this.simulaatio.MINIMI_HIUKKASEN_SADE + " - " + this.simulaatio.MAKSIMI_HIUKKASEN_SADE + " nm (lisäksi oltava suurempi kuin hiukkanen nyt) \n"
+                        + "Lopetusaika: " + (this.simulaatio.MINIMI_AIKA/3600.0) + " - " + (this.simulaatio.MAKSIMI_AIKA/3600.0) + " h\n"
+                        + "Lämpötila: " + this.simulaatio.MINIMI_LAMPOTILA + " - " + this.simulaatio.MAKSIMI_LAMPOTILA + " K\n"
+                        + "Paine: " + this.simulaatio.MINIMI_PAINE + " - " + this.simulaatio.MAKSIMI_PAINE + " atm",
                                                 "Virhe",JOptionPane.ERROR_MESSAGE);
                 
                 return;
                     
                     
             }
-                ajaSimulaatio(lopetus_sade, lopetus_aika, paine, lampotila, this.simulaatio, this.pallonpohja);
+                this.simulaatio.ajaSimulaatio(lopetus_sade, lopetus_aika, paine, lampotila, this.pallonpohja, this.kuvaaja);
                 
  
             }
@@ -97,31 +124,6 @@ public class SimulaatioAjonKuuntelija implements ActionListener{
         
     }
     
-    private void ajaSimulaatio(double lopetussade, double lopetusaika, double paine, double lampotila, Simulaatio simulaatio, PallonPiirtopohja pallonpohja) {
-        int kierros;
-        simulaatio.getIlmakeha().setAika(0.0);
-        simulaatio.setLopetussade(lopetussade);
-        simulaatio.setLopetusaika(lopetusaika);
-        simulaatio.getIlmakeha().setPaine(paine);
-        simulaatio.getIlmakeha().setLampotila(lampotila);
-        pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
-        pallonpohja.repaint();
-        
-        kierros = 1;
-        while(!simulaatio.tarkistaOnkoSimulaatioLopetettava()) {
-            simulaatio.getIlmakeha().kasvataHiukkasta(1.0);
-            simulaatio.getIlmakeha().edistaAikaa(1.0);
-            simulaatio.getData().tallennaAikaAskeleenTiedot();
-            if(kierros%1000==0) {
-                pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
-                pallonpohja.paint(pallonpohja.getGraphics());
 
-            }
-            kierros++;
-            
-        }
-        pallonpohja.setPallo(new Pallo(simulaatio.getIlmakeha().getHiukkanen().getSade()*1e9));
-        kuvaaja.paint(kuvaaja.getGraphics());
-    }
         
 }

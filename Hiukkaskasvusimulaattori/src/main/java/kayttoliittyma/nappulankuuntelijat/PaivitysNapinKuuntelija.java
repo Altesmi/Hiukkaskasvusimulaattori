@@ -8,7 +8,7 @@ import javax.swing.JTextArea;
 import kayttoliittyma.Simulaatio;
 
 /**
- * Päivittää hiukkasen kaasun ja ilmakehän tekstin käyttöliittymässä
+ * Päivittää hiukkasen, kaasun ja ilmakehän tekstin käyttöliittymässä
  * 
  * @author Olli-Pekka Tikkanen
  */
@@ -19,6 +19,13 @@ public class PaivitysNapinKuuntelija implements ActionListener{
     private JTextArea ilmakeha;
     private Simulaatio simulaatio;
     
+    /**
+     * Konstruktori PaivitysNapinKuuntelija-luokalle
+     * @param hiukkanen Hiukkasen tiedot sisältävä teksti
+     * @param kaasu Kaasun tiedot sisältävä teksti
+     * @param ilmakeha Ilmekehän tiedot sisältävä teksti
+     * @param simulaatio Nykyinen simulaatio
+     */
     public PaivitysNapinKuuntelija(JTextArea hiukkanen, JTextArea kaasu,
                                      JTextArea ilmakeha, Simulaatio simulaatio) {
         
@@ -29,6 +36,11 @@ public class PaivitysNapinKuuntelija implements ActionListener{
         
     }
     
+    /**
+     * Kun "Päivitä"-nappia painetaan tämä metodi ajetaan.
+     * Päivittää käyttöliittymässä näkyvät tekstit nykyisiin arvoihinsa
+     * @param ae ActionEvent 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         DecimalFormat d = new DecimalFormat("##.###");

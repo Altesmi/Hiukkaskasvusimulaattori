@@ -22,11 +22,21 @@ public class TallennaDataKuuntelija implements ActionListener{
     private Simulaatio simulaatio;
     private JFrame frame;
     
+    /**
+     * Konstruktori TallennaDataKuuntelija-luokalle
+     * @param simulaatio Nkyinen simulaatio
+     * @param frame Frame, jossa kuunneltava nappula on
+     */
     public TallennaDataKuuntelija(Simulaatio simulaatio, JFrame frame) {
         this.simulaatio = simulaatio;
         this.frame = frame;
     }
 
+    /**
+     * Tämä metodi ajetaan, kun "Tallenna data" -nappulaa painetaan-
+     * 
+     * @param ae ActionEvent 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
        

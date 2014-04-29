@@ -20,7 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 /**
- * Käyttöliittymä luokka piirtää nappulan ja tekstikentän.
+ * Käyttöliittymä-luokka luo Hiukkaskasvusimulaattorin
+ * rakenteen (nappulat, kuvaajan hiukkasen piirtoalustat, tekstikentät)
  * @author Olli-Pekka Tikkanen
  */
 public class Kayttoliittyma implements Runnable {
@@ -52,14 +53,19 @@ public class Kayttoliittyma implements Runnable {
         frame.setVisible(true);
     }
     
+    /**
+     * Luo kaikki tarvittavat komponentit GridBoxLayoutin avulla
+     * 
+     * @param sailio Container ikkunalle, johon piirretään.
+     */
     private void luoKomponentit(Container sailio) {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         PallonPiirtopohja hiukkasenPohja = new PallonPiirtopohja(Color.WHITE, this.pallo,500,300);
-        KuvaajanPiirtopohja kuvaajanPohja = new KuvaajanPiirtopohja(Color.WHITE,this.simulaatio.getData(),500,300); 
-        KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija(this.simulaatio.getIlmakeha());
-        HiukkasenLuomisenKuuntelija hiukkaskuuntelija = new HiukkasenLuomisenKuuntelija(this.simulaatio.getIlmakeha());
-        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio, kuvaajanPohja);
+        Kuvaaja kuvaaja = new Kuvaaja(Color.WHITE,this.simulaatio.getData(),500,300); 
+        KaasunLuomisenKuuntelija kaasuKuuntelija = new KaasunLuomisenKuuntelija(this.simulaatio);
+        HiukkasenLuomisenKuuntelija hiukkaskuuntelija = new HiukkasenLuomisenKuuntelija(this.simulaatio);
+        SimulaatioAjonKuuntelija simulaatiokuuntelija = new SimulaatioAjonKuuntelija(hiukkasenPohja, frame, this.simulaatio, kuvaaja);
         TallennaDataKuuntelija tallennuskuuntelija = new TallennaDataKuuntelija(this.simulaatio, frame);
         sailio.setLayout(layout);
     //JTextArea textAreaOikea = new JTextArea(simulaatio.tulostaHiukkasenSade());
@@ -160,11 +166,11 @@ public class Kayttoliittyma implements Runnable {
         
         c.gridx = 1;
         c.gridy = 1;
-        c.ipadx = kuvaajanPohja.getLeveys();
-        c.ipady = kuvaajanPohja.getKorkeus();
+        c.ipadx = kuvaaja.getLeveys();
+        c.ipady = kuvaaja.getKorkeus();
         c.insets = new Insets(20,20,0,0);
         c.anchor = GridBagConstraints.PAGE_END;
-        sailio.add(kuvaajanPohja,c);
+        sailio.add(kuvaaja,c);
         
         
         

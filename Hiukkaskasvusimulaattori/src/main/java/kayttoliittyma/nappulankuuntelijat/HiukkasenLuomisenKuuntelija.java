@@ -1,7 +1,7 @@
 
 package kayttoliittyma.nappulankuuntelijat;
 
-import logiikka.Ilmakeha;
+import kayttoliittyma.Simulaatio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Container;
@@ -18,17 +18,27 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 /**
- *
- * @author optikkanen
+ * Luokka kuuntelee "luo hiukkanen" -nappulaa pääikkunassa 
+ * ja nappulaa painettaessa avaa kyselydialogin hiukkasen ominaisuuksista.
+ * @author Olli-Pekka Tikkanen
  */
 public class HiukkasenLuomisenKuuntelija implements ActionListener{
     
-    private Ilmakeha ilmakeha;
+    private Simulaatio simulaatio;
     
-    public HiukkasenLuomisenKuuntelija(Ilmakeha ilmakeha) {
-        this.ilmakeha = ilmakeha;
+    /**
+     * Konstruktori HIukkasenLuomisenKuuntelijalle
+     * @param simulaatio nykyinen simulaatio-olio
+     */
+    public HiukkasenLuomisenKuuntelija(Simulaatio simulaatio) {
+        this.simulaatio = simulaatio;
     }
     
+    /**
+     * Nappulan painamisen jälkeen tämä metodi suoritetaa: avaa uuden
+     * JFramen, missä kysymykset hiukkasen ominaisuuksista
+     * @param ae ActionEvent-olio
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
        JFrame kyselyFrame = new JFrame("Luo hiukkanen");
@@ -40,6 +50,11 @@ public class HiukkasenLuomisenKuuntelija implements ActionListener{
        kyselyFrame.setVisible(true);
     }
     
+    /**
+     * Luo kyselyikkunan GridLayout-luokan avulla
+     * @param sailio Container framesta johon piirretään
+     * @param frame Frame, jossa nappula on
+     */
    private void luoKysely(Container sailio, JFrame frame) {
         
         GridLayout hiukkanenLayout = new GridLayout(4,2);
@@ -57,7 +72,7 @@ public class HiukkasenLuomisenKuuntelija implements ActionListener{
         JButton lisaaNappi = new JButton("Lisää hiukkanen");
         
         HiukkasenLisaysKuuntelija lisayskuuntelija = new HiukkasenLisaysKuuntelija(nimiKentta, sadeKentta, tiheysKentta,
-                                                                              this.ilmakeha, frame);
+                                                                              this.simulaatio, frame);
         lisaaNappi.addActionListener(lisayskuuntelija);
         
         sailio.add(nimiTeksti);
